@@ -3,6 +3,11 @@ import { Track } from './audio';
 import { Browser, launch } from 'puppeteer';
 import config from './config';
 import path, { resolve } from 'path';
+import { google } from 'googleapis';
+import { addDays } from 'date-fns';
+import { createReadStream } from 'fs';
+
+const youtube = google.youtube({ version: 'v3', auth: config.YOUTUBE_API_KEY });
 
 let window: Browser;
 
@@ -87,5 +92,53 @@ export const processVideo = (
       .on('end', resolve)
       .on('error', reject)
       .save(path.resolve(__dirname, '../assets/out.mp4'));
+  });
+};
+
+const getDescription = (songTitle: string, song: Track) => `
+  ${songTitle}
+
+  ⭐️ DatSongBot brings you another fresh, new music by ${
+    song.user.username
+  } for you to enjoy!
+
+  Listen to this song on Soundcloud:
+  ▶️${song.permalink_url}
+
+  Follow ${song.user.username} on Soundcloud:
+  🔉${song.user.permalink_url}
+
+  🎵 DatSongBot is a bot built by Buzzertech (https://buzzertech.com) which picks a new, trending song from soundcloud and uploads it to YouTube. This is an experimental tool. With that being said, be sure to subscribe to DatSongBot on YouTube and turn on notifications 'cause we post new music daily on this channel!
+
+  ❌ DatSongBot doesn't owns this music. Just for entertainment purposes only!
+
+  Cheers 🎵
+  `;
+
+export const uploadVideo = (song: Track) => {
+  const songTitle =
+    song.title.replace(/(")|(')|(\.)/g, '').trim() + ` | ${song.user.username}`;
+
+  const description = getDescription(songTitle, song);
+  return youtube.videos.insert({
+    part: 'snippet, status',
+    requestBody: {
+      snippet: {
+        title: songTitle,
+        description,
+        categoryId: '10',
+        tags: [...song.tag_list.split(' '), 'DatSongBot', 'ZeonBot', 'Music'],
+        defaultLanguage: 'en',
+      },
+      status: {
+        embeddable: false,
+        privacyStatus: 'private',
+        license: 'youtube',
+        publishAt: addDays(new Date(), 4).toISOString(),
+      },
+    },
+    media: {
+      body: createReadStream(path.resolve(__dirname, '../assets/out.mp4')),
+    },
   });
 };
