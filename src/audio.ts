@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { pick, chain } from 'lodash';
+import { pick, chain, sum } from 'lodash';
 import config from './config';
 import qs from 'qs';
 import { format } from 'date-fns';
@@ -119,12 +119,15 @@ export const getTracksFromSoundcloud = async () => {
     );
 
     console.log(`fetched and got ${response.data.length} responses`);
-    const pickedSong = response.data
-      .sort(e => (e.playback_count || 0) + (e.likes_count || 0))
-      .filter(e => e.downloadable)[0];
+    const pickedSong = chain(response.data)
+      .filter(e => e.downloadable || Boolean(e.stream_url))
+      .sort(e => sum([e.playback_count, e.likes_count]))
+      .get(0)
+      .value();
 
     console.log('picked song: ' + pickedSong.id);
     return pick(pickedSong, [
+      'stream_url',
       'download_url',
       'user',
       'description',

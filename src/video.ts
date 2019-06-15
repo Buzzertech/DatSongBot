@@ -55,7 +55,7 @@ export const generateImage = async (content: string) => {
 };
 
 export const processVideo = (
-  song: Pick<Track, 'duration' | 'download_url'>,
+  song: Pick<Track, 'duration' | 'download_url' | 'stream_url'>,
   image: string
 ): Promise<void> => {
   //@ts-ignore
@@ -63,7 +63,10 @@ export const processVideo = (
     .inputFPS(30)
     .loop()
     .withSize('1920x1080')
-    .input(song.download_url + `?client_id=${config.SOUNDCLOUD_CLIENT_ID}`)
+    .input(
+      song.download_url ||
+        song.stream_url + `?client_id=${config.SOUNDCLOUD_CLIENT_ID}`
+    )
     .outputOption('-shortest')
     .videoCodec('libx264')
     .videoBitrate(10000, true)
