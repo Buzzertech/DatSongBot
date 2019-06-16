@@ -5,8 +5,9 @@ import config from './config';
 import path, { resolve } from 'path';
 import { google } from 'googleapis';
 import { addDays } from 'date-fns';
-import { createReadStream } from 'fs';
+import { createReadStream, stat } from 'fs-extra';
 import { IUnsplashResponse } from 'image';
+import { imageLogger, videoLogger, durationToSeconds } from './lib/utils';
 
 const oauthclient = new google.auth.OAuth2({
   clientId: config.YOUTUBE_CLIENT_ID,
@@ -40,6 +41,9 @@ export const prepareSvg = (
   if (songName.length > 20) {
     textX = '2%';
   }
+
+  imageLogger(`Preparing svg string for background`);
+
   return `
 		<style>html,body{margin: 0; padding: 0;}</style>
 		<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap&text=${songName}${artistName}" rel="stylesheet">
@@ -59,25 +63,29 @@ export const prepareSvg = (
 };
 
 export const generateImage = async (content: string) => {
-  console.log('prepping image');
+  imageLogger('Launching page in puppeteer');
   const page = await window.newPage();
+  imageLogger('Loading svg content into the page');
   await page.setContent(content);
+  imageLogger('Loaded svg content into the page');
   await page.setViewport({ width: 1920, height: 1080, isLandscape: true });
-  const imageBuffer = await page.screenshot({
+  imageLogger(`Processing screenshot`);
+  await page.screenshot({
     omitBackground: true,
     fullPage: true,
     path: resolve(__dirname, '../assets/out.png'),
   });
-  console.log('image prepared');
+  imageLogger(`Background image prepared and saved`);
   await window.close();
-
-  return imageBuffer;
 };
 
 export const processVideo = (
   song: PickedTrack,
   image: string
 ): Promise<void> => {
+  videoLogger('Starting to process video');
+  videoLogger(`Approx. duration of the video - ${song.duration} ms`);
+
   //@ts-ignore
   const processChain = ffmpeg(image)
     .inputFPS(30)
@@ -100,9 +108,10 @@ export const processVideo = (
 
   return new Promise((resolve, reject) => {
     processChain
-      .on('start', (cmd: string) => console.log(cmd))
-      .on('progress', function(progress: { percent: number }) {
-        console.log(progress);
+      .on('start', () => videoLogger(`ffmpeg has begun processing the video`))
+      .on('progress', function(progress: { timemark: string }) {
+        const duration = durationToSeconds(progress.timemark) * 1000;
+        videoLogger(`Current progress - ${(duration / song.duration) * 100}%`);
       })
       .on('end', resolve)
       .on('error', reject)
@@ -114,59 +123,75 @@ const getDescription = (
   songTitle: string,
   song: PickedTrack,
   imageData: IUnsplashResponse
-) => `
-  ${songTitle}
+) => `${songTitle}
 
-  ⭐️ DatSongBot brings you another fresh, new music by ${
-    song.user.username
-  } for you to enjoy!
+⭐️ DatSongBot brings you another fresh, new music by ${
+  song.user.username
+} for you to enjoy!
 
-  Listen to this song on Soundcloud:
-  ▶️${song.permalink_url}
+Listen to this song on Soundcloud:
+▶️${song.permalink_url}
 
-  Follow ${song.user.username} on Soundcloud:
-  🔉${song.user.permalink_url}
+Follow ${song.user.username} on Soundcloud:
+🔉${song.user.permalink_url}
 
-  The background image used in this video is provided by ${
-    imageData.user.name
-  } from Unsplash:
-  🔗Follow ${imageData.user.name} on Unsplash - ${imageData.user.links.html}
-  📂Download this background - ${imageData.links.html}
+The background image used in this video is provided by ${
+  imageData.user.name
+} from Unsplash:
+🔗Follow ${imageData.user.name} on Unsplash - ${imageData.user.links.html}
+📂Download this background - ${imageData.links.html}
 
-  🎵 DatSongBot is a bot built by Buzzertech (https://buzzertech.com) which picks a new, trending song from soundcloud and uploads it to YouTube. This is an experimental tool. With that being said, be sure to subscribe to DatSongBot on YouTube and turn on notifications 'cause we post new music daily on this channel!
+🎵 DatSongBot is a bot built by Buzzertech (https://buzzertech.com) which picks a new, trending song from soundcloud and uploads it to YouTube. This is an experimental tool. With that being said, be sure to subscribe to DatSongBot on YouTube and turn on notifications 'cause we post new music daily on this channel!
 
-  ❌ DatSongBot doesn't owns this music nor the image used in this video. Just for entertainment purposes only!
+❌ DatSongBot doesn't owns this music nor the image used in this video. Just for entertainment purposes only!
 
-  Cheers 🎵
+Cheers 🎵
   `;
 
-export const uploadVideo = (
+export const uploadVideo = async (
   song: PickedTrack,
   imageData: IUnsplashResponse
 ) => {
+  const videoPath = path.resolve(__dirname, '../assets/out.mp4');
+  const { size: totalVideoByteSize } = await stat(videoPath);
+
   const songTitle =
     song.title.replace(/(")|(')|(\.)/g, '').trim() + ` | ${song.user.username}`;
 
+  videoLogger(`Preparing the video description`);
+
   const description = getDescription(songTitle, song, imageData);
-  return youtube.videos.insert({
-    part: 'snippet, status',
-    requestBody: {
-      snippet: {
-        title: songTitle,
-        description,
-        categoryId: '10',
-        tags: [...song.tag_list.split(' '), 'DatSongBot', 'ZeonBot', 'Music'],
-        defaultLanguage: 'en',
+
+  return youtube.videos.insert(
+    {
+      part: 'snippet, status',
+      requestBody: {
+        snippet: {
+          title: songTitle,
+          description,
+          categoryId: '10',
+          tags: [...song.tag_list.split(' '), 'DatSongBot', 'ZeonBot', 'Music'],
+          defaultLanguage: 'en',
+        },
+        status: {
+          embeddable: false,
+          privacyStatus: 'private',
+          license: 'youtube',
+          publishAt: addDays(new Date(), 4).toISOString(),
+        },
       },
-      status: {
-        embeddable: false,
-        privacyStatus: 'private',
-        license: 'youtube',
-        publishAt: addDays(new Date(), 4).toISOString(),
+      media: {
+        body: createReadStream(path.resolve(__dirname, '../assets/out.mp4')),
       },
     },
-    media: {
-      body: createReadStream(path.resolve(__dirname, '../assets/out.mp4')),
-    },
-  });
+    {
+      onUploadProgress: progress => {
+        videoLogger(
+          `Video upload progress - ${new Number(
+            (progress.bytesRead / totalVideoByteSize) * 100
+          ).toFixed(2)}%`
+        );
+      },
+    }
+  );
 };

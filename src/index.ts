@@ -9,11 +9,12 @@ import {
 import { getTracksFromSoundcloud } from './audio';
 import { getUnsplashPhoto } from './image';
 import { resolve } from 'path';
+import { videoLogger } from './lib/utils';
 
 const test = async () => {
   launchPage();
   const song = await getTracksFromSoundcloud();
-  const { data: image } = await getUnsplashPhoto(song.tag_list);
+  const image = await getUnsplashPhoto(song.tag_list);
   const svgContent = prepareSvg(
     image.urls.custom,
     song.title.replace(/(")|(')|(\.)/g, ''),
@@ -23,7 +24,8 @@ const test = async () => {
   await processVideo(song, resolve(__dirname, '../assets/out.png'));
   const response = await uploadVideo(song, image);
 
-  console.log('Youtube video id - ' + response.data.id);
+  videoLogger(`Video has been uploaded!`);
+  videoLogger(`Youtube video id - ${response.data.id}`);
 };
 
 test().catch(e => {

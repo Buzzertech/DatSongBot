@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from './config';
+import { imageLogger } from './lib/utils';
 
 export interface IUnsplashResponse {
   id: string;
@@ -35,7 +36,8 @@ export interface IUnsplashResponse {
 }
 
 export const getUnsplashPhoto = async (tags: string) => {
-  return axios.get<IUnsplashResponse>(
+  imageLogger('fetching random photo from unsplash');
+  const { data: imageData } = await axios.get<IUnsplashResponse>(
     `https://api.unsplash.com/photos/random`,
     {
       params: {
@@ -47,4 +49,6 @@ export const getUnsplashPhoto = async (tags: string) => {
       },
     }
   );
+  imageLogger(`fetched photo from unsplash - ${imageData.links.html}`);
+  return imageData;
 };

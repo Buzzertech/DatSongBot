@@ -3,6 +3,7 @@ import { pick, chain, sum } from 'lodash';
 import config from './config';
 import qs from 'qs';
 import { format } from 'date-fns';
+import { audioLogger } from './lib/utils';
 
 interface SCUser {
   avatar_url: string;
@@ -103,7 +104,7 @@ interface SCUserWebProfile {
 
 export const getTracksFromSoundcloud = async () => {
   try {
-    console.log('fetching tracks');
+    audioLogger('fetching tracks');
     const response = await axios.get<Track[]>(
       `https://api.soundcloud.com/tracks`,
       {
@@ -121,25 +122,30 @@ export const getTracksFromSoundcloud = async () => {
             to: encodeURIComponent(format(new Date(), 'YYYY-MM-DD HH:mm:ss')),
           },
         },
-        paramsSerializer: params => {
-          let stringified = qs.stringify(params, {
+        paramsSerializer: params =>
+          qs.stringify(params, {
             arrayFormat: 'brackets',
             encode: false,
-          });
-          console.log(stringified);
-          return stringified;
-        },
+          }),
       }
     );
 
-    console.log(`fetched and got ${response.data.length} responses`);
+    audioLogger(`fetched and got ${response.data.length} responses`);
     const pickedSong = chain(response.data)
-      .filter(e => e.downloadable || Boolean(e.stream_url))
+      .filter(
+        e =>
+          e.downloadable ||
+          (Boolean(e.stream_url) &&
+            e.duration < 60 * 5 * 1000) /* 5 mins or 300000 ms */
+      )
       .sort(e => sum([e.playback_count, e.likes_count]))
       .get(0)
       .value();
 
-    console.log('picked song: ' + pickedSong.id);
+    audioLogger(
+      `Picked Song - ${pickedSong.title} (Soundcloud id - ${pickedSong.id})`
+    );
+
     return pick(pickedSong, [
       'stream_url',
       'download_url',
@@ -154,6 +160,8 @@ export const getTracksFromSoundcloud = async () => {
       'duration',
     ]);
   } catch (e) {
+    audioLogger(`Something went wrong while fetching / picking track`);
+    audioLogger(e);
     return Promise.reject(e);
   }
 };
