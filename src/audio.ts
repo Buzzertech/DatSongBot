@@ -77,6 +77,20 @@ export interface Track {
   label_id: number;
 }
 
+export type PickedTrack = Pick<
+  Track,
+  | 'stream_url'
+  | 'download_url'
+  | 'user'
+  | 'description'
+  | 'title'
+  | 'purchase_title'
+  | 'purchase_url'
+  | 'tag_list'
+  | 'permalink_url'
+  | 'id'
+  | 'duration'
+>;
 interface SCUserWebProfile {
   kind: 'web-profile';
   id: number;
