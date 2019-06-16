@@ -1,13 +1,28 @@
 import ffmpeg from 'fluent-ffmpeg';
-import { Track } from './audio';
+import { PickedTrack } from './audio';
 import { Browser, launch } from 'puppeteer';
 import config from './config';
 import path, { resolve } from 'path';
 import { google } from 'googleapis';
 import { addDays } from 'date-fns';
 import { createReadStream } from 'fs';
+import { IUnsplashResponse } from 'image';
 
-const youtube = google.youtube({ version: 'v3', auth: config.YOUTUBE_API_KEY });
+const oauthclient = new google.auth.OAuth2({
+  clientId: config.YOUTUBE_CLIENT_ID,
+  clientSecret: config.YOUTUBE_CLIENT_SECRET,
+});
+
+oauthclient.setCredentials({
+  refresh_token: config.YOUTUBE_REFRESH_TOKEN,
+});
+
+(async () =>
+  oauthclient.setCredentials({
+    access_token: (await oauthclient.getAccessToken()).token,
+  }))();
+
+const youtube = google.youtube({ version: 'v3', auth: oauthclient });
 
 let window: Browser;
 
@@ -60,7 +75,7 @@ export const generateImage = async (content: string) => {
 };
 
 export const processVideo = (
-  song: Pick<Track, 'duration' | 'download_url' | 'stream_url'>,
+  song: PickedTrack,
   image: string
 ): Promise<void> => {
   //@ts-ignore
@@ -95,7 +110,11 @@ export const processVideo = (
   });
 };
 
-const getDescription = (songTitle: string, song: Track) => `
+const getDescription = (
+  songTitle: string,
+  song: PickedTrack,
+  imageData: IUnsplashResponse
+) => `
   ${songTitle}
 
   ⭐️ DatSongBot brings you another fresh, new music by ${
@@ -108,18 +127,27 @@ const getDescription = (songTitle: string, song: Track) => `
   Follow ${song.user.username} on Soundcloud:
   🔉${song.user.permalink_url}
 
+  The background image used in this video is provided by ${
+    imageData.user.name
+  } from Unsplash:
+  🔗Follow ${imageData.user.name} on Unsplash - ${imageData.user.links.html}
+  📂Download this background - ${imageData.links.html}
+
   🎵 DatSongBot is a bot built by Buzzertech (https://buzzertech.com) which picks a new, trending song from soundcloud and uploads it to YouTube. This is an experimental tool. With that being said, be sure to subscribe to DatSongBot on YouTube and turn on notifications 'cause we post new music daily on this channel!
 
-  ❌ DatSongBot doesn't owns this music. Just for entertainment purposes only!
+  ❌ DatSongBot doesn't owns this music nor the image used in this video. Just for entertainment purposes only!
 
   Cheers 🎵
   `;
 
-export const uploadVideo = (song: Track) => {
+export const uploadVideo = (
+  song: PickedTrack,
+  imageData: IUnsplashResponse
+) => {
   const songTitle =
     song.title.replace(/(")|(')|(\.)/g, '').trim() + ` | ${song.user.username}`;
 
-  const description = getDescription(songTitle, song);
+  const description = getDescription(songTitle, song, imageData);
   return youtube.videos.insert({
     part: 'snippet, status',
     requestBody: {
