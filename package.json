@@ -1,8 +1,13 @@
 {
-  "name": "zeon",
+  "name": "dat-song-bot",
   "version": "0.1.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
+  "author": {
+    "email": "Prasad Nayak <prasadnayak1006@gmail.com>",
+    "name": "Prasad Nayak",
+    "url": "https://github.com/Buzzertech"
+  },
   "files": [
     "dist"
   ],
