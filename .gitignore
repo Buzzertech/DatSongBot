@@ -2,3 +2,5 @@ node_modules
 .rts**
 dist
 assets
+.vscode
+yarn-error.log
