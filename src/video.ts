@@ -8,6 +8,9 @@ import { addDays } from 'date-fns';
 import { createReadStream, stat } from 'fs-extra';
 import { IUnsplashResponse } from 'image';
 import { imageLogger, videoLogger, durationToSeconds } from './lib/utils';
+import installer from '@ffmpeg-installer/ffmpeg';
+
+ffmpeg.setFfmpegPath(installer.path);
 
 const oauthclient = new google.auth.OAuth2({
   clientId: config.YOUTUBE_CLIENT_ID,
@@ -46,7 +49,7 @@ export const prepareSvg = (
 
   return `
 		<style>html,body{margin: 0; padding: 0;}</style>
-		<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap&text=${songName}${artistName}" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap&text=${songName.toUpperCase()}${artistName.toUpperCase()}" rel="stylesheet">
 		<svg viewBox="0 0 1920 1080" lang="en-US" xmlns="http://www.w3.org/2000/svg">
 			<defs>
 				<linearGradient id="bottomGrad" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -56,8 +59,10 @@ export const prepareSvg = (
 			</defs>
 			<image href="${bgUrl}" x="0" y="0" width="100%" height="100%" />
 			<rect x="0" y="40%" width="100%" height="60%" fill="url(#bottomGrad)"/>
-			<text x="${textX}" style="font-family: 'Poppins', arial; font-weight: bold; font-size: 5em;" y="90%" fill="white">${songName}</text>
-			<text x="${textX}" style="font-family: 'Poppins', arial; font-size: 3em; font-weight: 300;" y="95%" fill="white">${artistName}</text>
+			<text x="${textX}" style="font-family: 'Poppins', arial; font-weight: bold; font-size: 5em;" y="90%" fill="white">${songName.toUpperCase()}</text>
+			<text x="${textX}" style="font-family: 'Poppins', arial; font-size: 3em; font-weight: 300;" y="95%" fill="white">${
+    artistName.toUpperCase
+  }</text>
 		</svg>
 	`;
 };
