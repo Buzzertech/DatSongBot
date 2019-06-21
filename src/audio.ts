@@ -13,24 +13,24 @@ interface SCUser {
   uri: string;
   username: string;
   permalink: string;
-  last_modified: Date;
+  last_modified: string;
 }
 
 export interface Track {
   comment_count: number;
-  release: number;
+  release: string | null;
   original_content_size: number;
-  track_type: string;
+  track_type: string | null;
   original_format: string;
   streamable: boolean;
   download_url: string;
   id: number;
   state: 'processing' | 'failed' | 'finished';
-  last_modified: Date;
+  last_modified: string;
   favoritings_count: number;
   kind: 'track';
-  purchase_url: string;
-  release_year: number;
+  purchase_url: string | null;
+  release_year: number | null;
   sharing: 'all' | 'private' | 'public';
   attachments_uri: string;
   license:
@@ -49,33 +49,33 @@ export interface Track {
   permalink_url: string;
   playback_count: number;
   downloadable: boolean;
-  created_at: Date;
+  created_at: string;
   description: string;
   title: string;
   duration: number;
-  artwork_url: string;
-  video_url: string;
+  artwork_url: string | null;
+  video_url: string | null;
   tag_list: string;
-  release_month: number;
+  release_month: number | null;
   genre: string;
-  release_day: number;
+  release_day: number | null;
   reposts_count: number;
-  label_name: string;
+  label_name: string | null;
   commentable: boolean;
-  bpm: number;
+  bpm: number | null;
   policy: string;
-  key_signature: string;
-  isrc: string;
+  key_signature: string | null;
+  isrc: string | null;
   uri: string;
   download_count: number;
   likes_count: number;
-  purchase_title: string;
+  purchase_title: string | null;
   embeddable_by: 'all' | 'me' | 'none';
   monetization_model: string;
   user: SCUser;
   user_playback_count: number;
   stream_url: string;
-  label_id: number;
+  label_id: number | null;
 }
 
 export type PickedTrack = Pick<
@@ -134,9 +134,8 @@ export const getTracksFromSoundcloud = async () => {
     const pickedSong = chain(response.data)
       .filter(
         e =>
-          e.downloadable ||
-          (Boolean(e.stream_url) &&
-            e.duration < 60 * 5 * 1000) /* 5 mins or 300000 ms */
+          (e.downloadable || Boolean(e.stream_url)) &&
+          e.duration < 60 * 5 * 1000 /* 5 mins or 300000 ms */
       )
       .sort(e => sum([e.playback_count, e.likes_count]))
       .get(0)

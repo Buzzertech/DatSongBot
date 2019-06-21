@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`audio #getTracksFromSoundcloud should fetch a list of song and pick a song out of the subset 1`] = `
+Object {
+  "description": "Just Hebrew words that have been downloaded individually from Forvo that i would like to share with anyone who is interested in language learning.",
+  "duration": 443,
+  "id": 640194939,
+  "permalink_url": "http://soundcloud.com/user-525309592/wave-he",
+  "purchase_title": null,
+  "purchase_url": null,
+  "stream_url": "https://api.soundcloud.com/tracks/640194939/stream",
+  "tag_list": "",
+  "title": "Wave He גל",
+  "user": Object {
+    "avatar_url": "https://a1.sndcdn.com/images/default_avatar_large.png",
+    "id": 655787799,
+    "kind": "user",
+    "last_modified": "2019/06/21 18:52:21 +0000",
+    "permalink": "user-525309592",
+    "permalink_url": "http://soundcloud.com/user-525309592",
+    "uri": "https://api.soundcloud.com/users/655787799",
+    "username": "Matthew186f",
+  },
+}
+`;
