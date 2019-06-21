@@ -30,7 +30,7 @@ export interface IUnsplashResponse {
     total_photos: number;
     total_collections: number;
     instagram_username: string;
-    twitter_username: string;
+    twitter_username: string | null;
     links: Record<'self' | 'html' | 'photos' | 'likes' | 'portfolio', string>;
   };
 }
