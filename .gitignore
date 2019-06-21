@@ -4,3 +4,4 @@ dist
 assets
 .vscode
 yarn-error.log
+.DS_STORE

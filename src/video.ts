@@ -60,9 +60,7 @@ export const prepareSvg = (
 			<image href="${bgUrl}" x="0" y="0" width="100%" height="100%" />
 			<rect x="0" y="40%" width="100%" height="60%" fill="url(#bottomGrad)"/>
 			<text x="${textX}" style="font-family: 'Poppins', arial; font-weight: bold; font-size: 5em;" y="90%" fill="white">${songName.toUpperCase()}</text>
-			<text x="${textX}" style="font-family: 'Poppins', arial; font-size: 3em; font-weight: 300;" y="95%" fill="white">${
-    artistName.toUpperCase
-  }</text>
+			<text x="${textX}" style="font-family: 'Poppins', arial; font-size: 3em; font-weight: 300;" y="95%" fill="white">${artistName.toUpperCase()}</text>
 		</svg>
 	`;
 };
@@ -130,9 +128,7 @@ const getDescription = (
   imageData: IUnsplashResponse
 ) => `${songTitle}
 
-⭐️ DatSongBot brings you another fresh, new music by ${
-  song.user.username
-} for you to enjoy!
+⭐️ DatSongBot brings you another fresh, new music by ${song.user.username} for you to enjoy!
 
 Listen to this song on Soundcloud:
 ▶️${song.permalink_url}
@@ -140,9 +136,7 @@ Listen to this song on Soundcloud:
 Follow ${song.user.username} on Soundcloud:
 🔉${song.user.permalink_url}
 
-The background image used in this video is provided by ${
-  imageData.user.name
-} from Unsplash:
+The background image used in this video is provided by ${imageData.user.name} from Unsplash:
 🔗Follow ${imageData.user.name} on Unsplash - ${imageData.user.links.html}
 📂Download this background - ${imageData.links.html}
 
