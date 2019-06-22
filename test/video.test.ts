@@ -2,7 +2,16 @@ import { launchPage, closePage, prepareSvg, generateImage } from '../src/video';
 import { puppeteer } from 'chrome-aws-lambda';
 import { LaunchOptions } from 'puppeteer';
 import fs from 'fs-extra';
-import { toMatchImageSnapshot } from 'jest-image-snapshot';
+import {
+  toMatchImageSnapshot,
+  configureToMatchImageSnapshot,
+} from 'jest-image-snapshot';
+
+configureToMatchImageSnapshot({
+  customDiffConfig: {
+    threshold: 0.08,
+  },
+});
 
 expect.extend({ toMatchImageSnapshot });
 
