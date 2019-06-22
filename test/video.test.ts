@@ -2,15 +2,7 @@ import { launchPage, closePage, prepareSvg, generateImage } from '../src/video';
 import { puppeteer } from 'chrome-aws-lambda';
 import { LaunchOptions } from 'puppeteer';
 import fs from 'fs-extra';
-import {
-  toMatchImageSnapshot,
-  configureToMatchImageSnapshot,
-} from 'jest-image-snapshot';
-
-configureToMatchImageSnapshot({
-  failureThreshold: 2000,
-  failureThresholdType: 'pixel',
-});
+import { toMatchImageSnapshot } from 'jest-image-snapshot';
 
 expect.extend({ toMatchImageSnapshot });
 
@@ -82,6 +74,8 @@ describe('video', () => {
       jest.retryTimes(3);
       expect(image).toMatchImageSnapshot({
         customSnapshotIdentifier: 'sandstorm',
+        failureThreshold: 2000,
+        failureThresholdType: 'pixel',
       });
     });
   });
