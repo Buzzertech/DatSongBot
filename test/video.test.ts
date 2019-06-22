@@ -71,7 +71,10 @@ describe('video', () => {
     it('generate a png image', async () => {
       await generateImage('/tmp/out.png', svgStr);
       const image = await fs.readFile('/tmp/out.png');
-      expect(image).toMatchImageSnapshot();
+      jest.retryTimes(3);
+      expect(image).toMatchImageSnapshot({
+        customSnapshotIdentifier: 'sandstorm',
+      });
     });
   });
 
