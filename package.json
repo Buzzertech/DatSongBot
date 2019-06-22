@@ -52,13 +52,14 @@
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.18",
     "axios": "^0.19.0",
+    "chrome-aws-lambda": "^1.17.1",
     "date-fns": "^1.30.1",
     "debug": "^4.1.1",
     "fluent-ffmpeg": "^2.1.2",
     "fs-extra": "^8.0.1",
     "googleapis": "^40.0.0",
     "lodash": "^4.17.11",
-    "puppeteer": "^1.17.0",
+    "puppeteer": "^1.18.0",
     "qs": "^6.7.0",
     "serverless": "^1.45.1"
   }

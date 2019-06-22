@@ -1,6 +1,7 @@
 import ffmpeg from 'fluent-ffmpeg';
 import { PickedTrack } from './audio';
-import { Browser, launch } from 'puppeteer';
+import chromium from 'chrome-aws-lambda';
+import { Browser, LaunchOptions } from 'puppeteer';
 import config from './config';
 import { IUnsplashResponse } from 'image';
 import { imageLogger, videoLogger, durationToSeconds } from './lib/utils';
@@ -10,7 +11,13 @@ ffmpeg.setFfmpegPath(installer.path);
 
 let window: Browser;
 
-export const launchPage = async () => (window = await launch());
+export const launchPage = async (opts?: LaunchOptions) =>
+  (window = await chromium.puppeteer.launch({
+    ...opts,
+    args: [...(opts && opts.args ? opts.args : []), ...chromium.args],
+    defaultViewport: chromium.defaultViewport,
+    executablePath: await chromium.executablePath,
+  }));
 
 export const closePage = async () => window && (await window.close());
 

@@ -1,9 +1,14 @@
 import { launchPage, closePage, prepareSvg, generateImage } from '../src/video';
-import puppeteer from 'puppeteer';
+import { puppeteer } from 'chrome-aws-lambda';
+import { LaunchOptions } from 'puppeteer';
 import fs from 'fs-extra';
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
 
 expect.extend({ toMatchImageSnapshot });
+
+const PUPPETEER_OPTS: LaunchOptions = {
+  args: ['-disable-sandbox', '–disable-setuid-sandbox'],
+};
 
 describe('video', () => {
   afterAll(async () => await closePage());
@@ -21,7 +26,7 @@ describe('video', () => {
     afterAll(() => jest.restoreAllMocks());
 
     it('create a new browser instance', async () => {
-      await launchPage();
+      await launchPage(PUPPETEER_OPTS);
       expect(launchSpy).toHaveBeenCalled();
     });
   });
@@ -30,7 +35,7 @@ describe('video', () => {
     let closePageSpy: jest.SpyInstance;
 
     beforeAll(async () => {
-      const window = await launchPage();
+      const window = await launchPage(PUPPETEER_OPTS);
       closePageSpy = jest.spyOn(window, 'close');
     });
 
@@ -53,7 +58,7 @@ describe('video', () => {
     let svgStr: string;
 
     beforeAll(async () => {
-      await launchPage();
+      await launchPage(PUPPETEER_OPTS);
       svgStr = prepareSvg(
         'https://placehold.it/1920x1080',
         'Sandstorm',

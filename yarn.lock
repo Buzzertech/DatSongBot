@@ -1573,6 +1573,11 @@ chownr@^1.1.1:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.1.tgz#54726b8b8fff4df053c42187e801fb4412df1494"
   integrity sha512-j38EvO5+LHX84jlo6h4UzmOwi0UgW61WRyPtJz4qaadK5eY3BTS5TY/S1Stc3Uk2lIM6TPevAlULiEJwie860g==
 
+chrome-aws-lambda@^1.17.1:
+  version "1.17.1"
+  resolved "https://registry.yarnpkg.com/chrome-aws-lambda/-/chrome-aws-lambda-1.17.1.tgz#d3ca2ae13a5cacd465582a9084c07976adc1ff3a"
+  integrity sha512-ooUkcyWRUyRLg4XCEVbM0fKMQUf5XRWb1flc1755w/0S9UMp+5fT0MRl0YQLlU2WIDo82fqWLY7mKtuBPkTOmg==
+
 chrome-trace-event@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/chrome-trace-event/-/chrome-trace-event-1.0.0.tgz#45a91bd2c20c9411f0963b5aaeb9a1b95e09cc48"
@@ -5795,10 +5800,10 @@ punycode@^2.1.0, punycode@^2.1.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-puppeteer@^1.17.0:
-  version "1.17.0"
-  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.17.0.tgz#371957d227a2f450fa74b78e78a2dadb2be7f14f"
-  integrity sha512-3EXZSximCzxuVKpIHtyec8Wm2dWZn1fc5tQi34qWfiUgubEVYHjUvr0GOJojqf3mifI6oyKnCdrGxaOI+lWReA==
+puppeteer@^1.18.0:
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-1.18.0.tgz#227bccc52806db37b3ccf762a7d95c06163f296e"
+  integrity sha512-NCwSN4wEIj43k4jO8Asa5nzibrIDFHWykqkZFjkGr0/f6U73k1ysql0gadQmOGLtZewXvvWqlNo+4ZMgX+5vZA==
   dependencies:
     debug "^4.1.0"
     extract-zip "^1.6.6"
