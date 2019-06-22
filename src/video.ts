@@ -2,30 +2,11 @@ import ffmpeg from 'fluent-ffmpeg';
 import { PickedTrack } from './audio';
 import { Browser, launch } from 'puppeteer';
 import config from './config';
-import { google } from 'googleapis';
-import { addDays } from 'date-fns';
-import { createReadStream, stat } from 'fs-extra';
 import { IUnsplashResponse } from 'image';
 import { imageLogger, videoLogger, durationToSeconds } from './lib/utils';
 import installer from '@ffmpeg-installer/ffmpeg';
 
 ffmpeg.setFfmpegPath(installer.path);
-
-const oauthclient = new google.auth.OAuth2({
-  clientId: config.YOUTUBE_CLIENT_ID,
-  clientSecret: config.YOUTUBE_CLIENT_SECRET,
-});
-
-oauthclient.setCredentials({
-  refresh_token: config.YOUTUBE_REFRESH_TOKEN,
-});
-
-(async () =>
-  oauthclient.setCredentials({
-    access_token: (await oauthclient.getAccessToken()).token,
-  }))();
-
-const youtube = google.youtube({ version: 'v3', auth: oauthclient });
 
 let window: Browser;
 
@@ -122,7 +103,7 @@ export const processVideo = (
   });
 };
 
-const getDescription = (
+export const getDescription = (
   songTitle: string,
   song: PickedTrack,
   imageData: IUnsplashResponse
@@ -150,51 +131,3 @@ The background image used in this video is provided by ${
 
 Cheers 🎵
   `;
-
-export const uploadVideo = async (
-  videoPath: string,
-  song: PickedTrack,
-  imageData: IUnsplashResponse
-) => {
-  const { size: totalVideoByteSize } = await stat(videoPath);
-
-  const songTitle =
-    song.title.replace(/(")|(')|(\.)/g, '').trim() + ` | ${song.user.username}`;
-
-  videoLogger(`Preparing the video description`);
-
-  const description = getDescription(songTitle, song, imageData);
-
-  return youtube.videos.insert(
-    {
-      part: 'snippet, status',
-      requestBody: {
-        snippet: {
-          title: songTitle,
-          description,
-          categoryId: '10',
-          tags: [...song.tag_list.split(' '), 'DatSongBot', 'ZeonBot', 'Music'],
-          defaultLanguage: 'en',
-        },
-        status: {
-          embeddable: false,
-          privacyStatus: 'private',
-          license: 'youtube',
-          publishAt: addDays(new Date(), 4).toISOString(),
-        },
-      },
-      media: {
-        body: createReadStream(videoPath),
-      },
-    },
-    {
-      onUploadProgress: progress => {
-        videoLogger(
-          `Video upload progress - ${new Number(
-            (progress.bytesRead / totalVideoByteSize) * 100
-          ).toFixed(2)}%`
-        );
-      },
-    }
-  );
-};

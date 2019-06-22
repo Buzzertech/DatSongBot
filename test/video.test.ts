@@ -6,6 +6,7 @@ import { toMatchImageSnapshot } from 'jest-image-snapshot';
 expect.extend({ toMatchImageSnapshot });
 
 describe('video', () => {
+  afterAll(async () => await closePage());
   describe('#launchPage', () => {
     let launchSpy: jest.SpyInstance;
 
@@ -69,5 +70,7 @@ describe('video', () => {
     });
   });
 
-  describe('#processVideo', () => {});
+  describe('#processVideo', () => {
+    it('will create a video file', () => {});
+  });
 });

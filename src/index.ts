@@ -4,13 +4,13 @@ import {
   launchPage,
   closePage,
   processVideo,
-  uploadVideo,
 } from './video';
 import { getTracksFromSoundcloud } from './audio';
 import { getUnsplashPhoto } from './image';
 import { resolve } from 'path';
 import { videoLogger } from './lib/utils';
 import { Handler } from 'aws-lambda';
+import { uploadVideo, connectToYoutube } from './upload';
 
 const IMAGE_OUTPUT = resolve(__dirname, '../assets/out.png');
 const VIDEO_OUTPUT = resolve(__dirname, '../assets/out.mp4');
@@ -18,6 +18,7 @@ const VIDEO_OUTPUT = resolve(__dirname, '../assets/out.mp4');
 export const main: Handler = async () => {
   try {
     launchPage();
+    const youtubeClient = connectToYoutube();
     const song = await getTracksFromSoundcloud();
     const image = await getUnsplashPhoto(song.tag_list);
     const svgContent = prepareSvg(
@@ -27,7 +28,12 @@ export const main: Handler = async () => {
     );
     await generateImage(IMAGE_OUTPUT, svgContent);
     await processVideo(VIDEO_OUTPUT, song, IMAGE_OUTPUT);
-    const response = await uploadVideo(VIDEO_OUTPUT, song, image);
+    const response = await uploadVideo(
+      VIDEO_OUTPUT,
+      song,
+      image,
+      await youtubeClient
+    );
 
     videoLogger(`Video has been uploaded!`);
     videoLogger(`Youtube video id - ${response.data.id}`);
