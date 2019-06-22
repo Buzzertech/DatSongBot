@@ -1,0 +1,31 @@
+service: dat-song-bot
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'production'}
+  region: ap-south-1
+  environment:
+    NODE_ENV: 'production'
+    YOUTUBE_CLIENT_ID: ''
+    YOUTUBE_CLIENT_SECRET: ''
+    YOUTUBE_REFRESH_TOKEN: ''
+    SOUNDCLOUD_CLIENT_ID: ''
+    UNSPLASH_ACCESS_KEY: ''
+
+custom:
+  webpack:
+    packager: 'yarn'
+    forceInclude:
+      - '@ffmpeg-installer/ffmpeg'
+
+functions:
+  dat-song-bot:
+    name: dat-song-bot-${self:provider.stage}
+    description: 'This function generates and uploads a video to youtube!'
+    memorySize: 1024
+    timeout: 900 # 15 minutes
+    handler: src/index.main
