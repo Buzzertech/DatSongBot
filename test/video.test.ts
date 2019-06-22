@@ -8,9 +8,8 @@ import {
 } from 'jest-image-snapshot';
 
 configureToMatchImageSnapshot({
-  customDiffConfig: {
-    threshold: 0.08,
-  },
+  failureThreshold: 2000,
+  failureThresholdType: 'pixel',
 });
 
 expect.extend({ toMatchImageSnapshot });
