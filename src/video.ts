@@ -71,7 +71,7 @@ export const generateImage = async (outputPath: string, content: string) => {
 
 export const processVideo = (
   outputPath: string,
-  song: PickedTrack,
+  song: Pick<PickedTrack, 'duration' | 'download_url' | 'stream_url'>,
   image: string
 ): Promise<void> => {
   videoLogger('Starting to process video');

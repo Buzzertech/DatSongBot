@@ -1,4 +1,10 @@
-import { launchPage, closePage, prepareSvg, generateImage } from '../src/video';
+import {
+  launchPage,
+  closePage,
+  prepareSvg,
+  generateImage,
+  processVideo,
+} from '../src/video';
 import { puppeteer } from 'chrome-aws-lambda';
 import { LaunchOptions } from 'puppeteer';
 import fs from 'fs-extra';
@@ -66,8 +72,6 @@ describe('video', () => {
       );
     });
 
-    afterAll(async () => await closePage());
-
     it('generate a png image', async () => {
       await generateImage('/tmp/out.png', svgStr);
       const image = await fs.readFile('/tmp/out.png');
@@ -81,6 +85,18 @@ describe('video', () => {
   });
 
   describe('#processVideo', () => {
-    it('will create a video file', () => {});
+    it('will create a video file', async () => {
+      await processVideo(
+        '/tmp/out.mp4',
+        {
+          download_url:
+            'https://raw.githubusercontent.com/anars/blank-audio/master/2-seconds-of-silence.mp3',
+          duration: 2000,
+          stream_url: '',
+        },
+        '/tmp/out.png'
+      );
+      expect(fs.existsSync('/tmp/out.mp4')).toEqual(true);
+    }, 10000);
   });
 });
