@@ -1,5 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`video #getDescription generates a description string 1`] = `
+"Sandstorm
+
+⭐️ DatSongBot brings you another fresh, new music by Matthew186f for you to enjoy!
+
+Listen to this song on Soundcloud:
+▶️http://soundcloud.com/user-525309592/wave-he
+
+Follow Matthew186f on Soundcloud:
+🔉http://soundcloud.com/user-525309592
+
+The background image used in this video is provided by Chris Benson from Unsplash:
+🔗Follow Chris Benson on Unsplash - https://unsplash.com/@lordmaui
+📂Download this background - https://unsplash.com/photos/nKEARsgmrqc
+
+🎵 DatSongBot is a bot built by Buzzertech (https://buzzertech.com) which picks a new, trending song from soundcloud and uploads it to YouTube. This is an experimental tool. With that being said, be sure to subscribe to DatSongBot on YouTube and turn on notifications 'cause we post new music daily on this channel!
+
+❌ DatSongBot doesn't owns this music nor the image used in this video. Just for entertainment purposes only!
+
+Cheers 🎵
+  "
+`;
+
 exports[`video #prepareSvg execute the template and return a svg string 1`] = `
 "
 		<style>html,body{margin: 0; padding: 0;}</style>

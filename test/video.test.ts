@@ -4,11 +4,14 @@ import {
   prepareSvg,
   generateImage,
   processVideo,
+  getDescription,
 } from '../src/video';
 import { puppeteer } from 'chrome-aws-lambda';
 import { LaunchOptions } from 'puppeteer';
 import fs from 'fs-extra';
 import { toMatchImageSnapshot } from 'jest-image-snapshot';
+import { tracks, imageData } from './__fixtures__/index.fixture';
+import { Track } from 'audio';
 
 expect.extend({ toMatchImageSnapshot });
 
@@ -98,5 +101,16 @@ describe('video', () => {
       );
       expect(fs.existsSync('/tmp/out.mp4')).toEqual(true);
     }, 10000);
+  });
+
+  describe('#getDescription', () => {
+    it('generates a description string', () => {
+      const description = getDescription(
+        'Sandstorm',
+        tracks[0] as Track,
+        imageData
+      );
+      expect(description).toMatchSnapshot();
+    });
   });
 });
