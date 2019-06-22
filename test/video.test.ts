@@ -53,7 +53,11 @@ describe('video', () => {
 
     beforeAll(async () => {
       await launchPage();
-      svgStr = prepareSvg('placehold.it/1920x1080', 'Sandstorm', 'Darude');
+      svgStr = prepareSvg(
+        'https://placehold.it/1920x1080',
+        'Sandstorm',
+        'Darude'
+      );
     });
 
     afterAll(async () => await closePage());
@@ -64,4 +68,6 @@ describe('video', () => {
       expect(image).toMatchImageSnapshot();
     });
   });
+
+  describe('#processVideo', () => {});
 });

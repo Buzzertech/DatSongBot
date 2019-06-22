@@ -4,7 +4,7 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "author": {
-    "email": "Prasad Nayak <prasadnayak1006@gmail.com>",
+    "email": "prasadnayak1006@gmail.com",
     "name": "Prasad Nayak",
     "url": "https://github.com/Buzzertech"
   },
