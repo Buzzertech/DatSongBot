@@ -2,7 +2,6 @@ import ffmpeg from 'fluent-ffmpeg';
 import { PickedTrack } from './audio';
 import { Browser, launch } from 'puppeteer';
 import config from './config';
-import path, { resolve } from 'path';
 import { google } from 'googleapis';
 import { addDays } from 'date-fns';
 import { createReadStream, stat } from 'fs-extra';
@@ -65,7 +64,7 @@ export const prepareSvg = (
 	`;
 };
 
-export const generateImage = async (content: string) => {
+export const generateImage = async (outputPath: string, content: string) => {
   imageLogger('Launching page in puppeteer');
   const page = await window.newPage();
   imageLogger('Loading svg content into the page');
@@ -76,13 +75,14 @@ export const generateImage = async (content: string) => {
   await page.screenshot({
     omitBackground: true,
     fullPage: true,
-    path: resolve(__dirname, '../assets/out.png'),
+    path: outputPath,
   });
   imageLogger(`Background image prepared and saved`);
   await window.close();
 };
 
 export const processVideo = (
+  outputPath: string,
   song: PickedTrack,
   image: string
 ): Promise<void> => {
@@ -118,7 +118,7 @@ export const processVideo = (
       })
       .on('end', resolve)
       .on('error', reject)
-      .save(path.resolve(__dirname, '../assets/out.mp4'));
+      .save(outputPath);
   });
 };
 
@@ -128,7 +128,9 @@ const getDescription = (
   imageData: IUnsplashResponse
 ) => `${songTitle}
 
-⭐️ DatSongBot brings you another fresh, new music by ${song.user.username} for you to enjoy!
+⭐️ DatSongBot brings you another fresh, new music by ${
+  song.user.username
+} for you to enjoy!
 
 Listen to this song on Soundcloud:
 ▶️${song.permalink_url}
@@ -136,7 +138,9 @@ Listen to this song on Soundcloud:
 Follow ${song.user.username} on Soundcloud:
 🔉${song.user.permalink_url}
 
-The background image used in this video is provided by ${imageData.user.name} from Unsplash:
+The background image used in this video is provided by ${
+  imageData.user.name
+} from Unsplash:
 🔗Follow ${imageData.user.name} on Unsplash - ${imageData.user.links.html}
 📂Download this background - ${imageData.links.html}
 
@@ -148,10 +152,10 @@ Cheers 🎵
   `;
 
 export const uploadVideo = async (
+  videoPath: string,
   song: PickedTrack,
   imageData: IUnsplashResponse
 ) => {
-  const videoPath = path.resolve(__dirname, '../assets/out.mp4');
   const { size: totalVideoByteSize } = await stat(videoPath);
 
   const songTitle =
@@ -180,7 +184,7 @@ export const uploadVideo = async (
         },
       },
       media: {
-        body: createReadStream(path.resolve(__dirname, '../assets/out.mp4')),
+        body: createReadStream(videoPath),
       },
     },
     {

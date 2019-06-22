@@ -12,6 +12,9 @@ import { resolve } from 'path';
 import { videoLogger } from './lib/utils';
 import { Handler } from 'aws-lambda';
 
+const IMAGE_OUTPUT = resolve(__dirname, '../assets/out.png');
+const VIDEO_OUTPUT = resolve(__dirname, '../assets/out.mp4');
+
 export const main: Handler = async () => {
   try {
     launchPage();
@@ -22,9 +25,9 @@ export const main: Handler = async () => {
       song.title.replace(/(")|(')|(\.)/g, ''),
       song.user.username
     );
-    await generateImage(svgContent);
-    await processVideo(song, resolve(__dirname, '../assets/out.png'));
-    const response = await uploadVideo(song, image);
+    await generateImage(IMAGE_OUTPUT, svgContent);
+    await processVideo(VIDEO_OUTPUT, song, IMAGE_OUTPUT);
+    const response = await uploadVideo(VIDEO_OUTPUT, song, image);
 
     videoLogger(`Video has been uploaded!`);
     videoLogger(`Youtube video id - ${response.data.id}`);
