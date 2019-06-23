@@ -25,6 +25,7 @@ jobs:
     steps:
       - checkout
       - run: yarn install
+      - run: yarn add -D serverless
       - run: yarn release
 workflows:
   version: 2
