@@ -13,6 +13,7 @@
   ],
   "scripts": {
     "dev": "sls invoke local -f dat-song-bot",
+    "test": "tsdx test",
     "release": "semantic-release",
     "deploy": "sls deploy"
   },
