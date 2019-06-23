@@ -10,9 +10,6 @@ module.exports = {
     filename: '[name].js',
   },
   target: 'node',
-  externals: [
-    /aws-sdk/, // Available on AWS Lambda
-  ],
   resolve: {
     extensions: ['.ts', '.js', '.json', 'node'],
   },
@@ -39,6 +36,7 @@ module.exports = {
   },
   externals: {
     'chrome-aws-lambda': 'chrome-aws-lambda',
+    'aws-sdk': 'aws-sdk',
     '@ffmpeg-installer/ffmpeg': '@ffmpeg-installer/ffmpeg',
   },
 };
