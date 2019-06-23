@@ -100,7 +100,7 @@ describe('video', () => {
         '/tmp/out.png'
       );
       expect(fs.existsSync('/tmp/out.mp4')).toEqual(true);
-    }, 10000);
+    }, 20000);
   });
 
   describe('#getDescription', () => {
