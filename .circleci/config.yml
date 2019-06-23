@@ -18,8 +18,22 @@ jobs:
           paths:
             - ~/.cache/yarn
       - run: yarn test
+  deploy:
+    docker:
+      - image: circleci/node:10.9
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: yarn install
+      - run: yarn release
 workflows:
   version: 2
-  test:
+  test_and_deploy:
     jobs:
       - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master

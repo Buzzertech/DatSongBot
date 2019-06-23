@@ -2,6 +2,7 @@ service: dat-song-bot
 
 plugins:
   - serverless-webpack
+  - serverless-offline
 
 provider:
   name: aws
@@ -16,6 +17,10 @@ provider:
     SOUNDCLOUD_CLIENT_ID: ${ssm:SOUNDCLOUD_CLIENT_ID}
     UNSPLASH_ACCESS_KEY: ${ssm:UNSPLASH_ACCESS_KEY}
     DEBUG: '*Logger'
+
+package:
+  exclude:
+    - node_modules/puppeteer/.local-chromium/** # exclude puppeteer chrome if exists
 
 custom:
   webpack:
