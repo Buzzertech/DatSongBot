@@ -7,17 +7,16 @@ import {
 } from './video';
 import { getTracksFromSoundcloud } from './audio';
 import { getUnsplashPhoto } from './image';
-import { resolve } from 'path';
 import { videoLogger } from './lib/utils';
 import { Handler } from 'aws-lambda';
 import { uploadVideo, connectToYoutube } from './upload';
 
-const IMAGE_OUTPUT = resolve(__dirname, '../assets/out.png');
-const VIDEO_OUTPUT = resolve(__dirname, '../assets/out.mp4');
+const IMAGE_OUTPUT = '/tmp/out.png';
+const VIDEO_OUTPUT = '/tmp/out.mp4';
 
 export const main: Handler = async () => {
   try {
-    launchPage();
+    await launchPage();
     const youtubeClient = connectToYoutube();
     const song = await getTracksFromSoundcloud();
     const image = await getUnsplashPhoto(song.tag_list);

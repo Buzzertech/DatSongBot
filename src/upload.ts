@@ -56,7 +56,10 @@ export const uploadVideo = async (
           embeddable: false,
           privacyStatus: 'private',
           license: 'youtube',
-          publishAt: addDays(new Date(), 4).toISOString(),
+          publishAt: addDays(
+            new Date().setHours(12, 30, 0, 0),
+            4
+          ).toISOString(),
         },
       },
       media: {

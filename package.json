@@ -12,14 +12,15 @@
     "dist"
   ],
   "scripts": {
-    "start": "tsdx watch",
-    "build": "tsdx build",
-    "test": "tsdx test"
+    "dev": "sls invoke local -f dat-song-bot",
+    "test": "tsdx test",
+    "release": "semantic-release",
+    "deploy": "sls deploy"
   },
-  "peerDependencies": {},
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "prettier": {
@@ -29,6 +30,11 @@
     "trailingComma": "es5"
   },
   "devDependencies": {
+    "@commitlint/config-conventional": "^8.0.0",
+    "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/exec": "^3.3.3",
+    "@semantic-release/git": "^7.0.12",
+    "@semantic-release/github": "^5.4.0",
     "@types/aws-lambda": "^8.10.27",
     "@types/debug": "^4.1.4",
     "@types/fluent-ffmpeg": "^2.1.9",
@@ -40,14 +46,24 @@
     "@types/puppeteer": "^1.12.4",
     "@types/qs": "^6.5.3",
     "aws-sdk": "^2.476.0",
-    "husky": "^2.3.0",
+    "commitlint": "^8.0.0",
+    "husky": "^2.4.1",
+    "iltorb": "^2.4.3",
     "jest-image-snapshot": "^2.8.2",
     "nock": "^10.0.6",
+    "node-loader": "^0.6.0",
     "prettier": "^1.17.1",
     "pretty-quick": "^1.10.0",
+    "puppeteer": "^1.18.0",
+    "puppeteer-core": "^1.18.0",
+    "semantic-release": "^15.13.16",
+    "serverless-offline": "^5.4.4",
+    "serverless-webpack": "^5.3.1",
+    "ts-loader": "^6.0.4",
     "tsdx": "^0.5.11",
     "tslib": "^1.9.3",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "webpack": "^4.35.0"
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.0.18",
@@ -59,8 +75,6 @@
     "fs-extra": "^8.0.1",
     "googleapis": "^40.0.0",
     "lodash": "^4.17.11",
-    "puppeteer": "^1.18.0",
-    "qs": "^6.7.0",
-    "serverless": "^1.45.1"
+    "qs": "^6.7.0"
   }
 }

@@ -6,3 +6,5 @@ assets
 yarn-error.log
 .DS_STORE
 coverage
+.serverless
+.webpack
