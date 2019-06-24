@@ -6,7 +6,7 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 ![](https://img.shields.io/github/release/buzzertech/datsongbot.svg)
 
-DatSongBot is a friendly, geek bot which uploads a music "video" to YouTube everyday. The track is picked from soundcloud. The bot uploads trap or chill music. This bot is written entirely in Typescript and runs on node. P.S. - None of these videos uploaded to YouTube are monetized
+DatSongBot is a friendly, geek bot which uploads a music "video" to YouTube ([Check it out on YouTube](https://www.youtube.com/channel/UCFoeVtY47K2cJp37gcU-GMA)) everyday. The track is picked from soundcloud. The bot uploads trap/chill music. This bot is written entirely in Typescript and runs on node. P.S. - None of these videos uploaded to YouTube are monetized
 
 ## Tech used
 
