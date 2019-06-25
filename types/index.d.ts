@@ -9,3 +9,9 @@ declare module '@ffmpeg-installer/ffmpeg' {
 
   export = installer;
 }
+
+declare module NodeJS {
+  interface Global {
+    __rootdir__: string;
+  }
+}
