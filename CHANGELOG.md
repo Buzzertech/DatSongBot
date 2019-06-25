@@ -1,6 +1,13 @@
 # Changelog
 
 
+# [1.1.0](https://github.com/Buzzertech/DatSongBot/compare/v1.0.0...v1.1.0) (2019-06-25)
+
+
+### Features
+
+* **error-tracking:** add sentry ([#2](https://github.com/Buzzertech/DatSongBot/issues/2)) ([c9b8223](https://github.com/Buzzertech/DatSongBot/commit/c9b8223))
+
 # 1.0.0 (2019-06-23)
 
 
