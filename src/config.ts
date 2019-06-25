@@ -6,6 +6,7 @@ const config = {
   YOUTUBE_CLIENT_SECRET: process.env.YOUTUBE_CLIENT_SECRET,
   YOUTUBE_REFRESH_TOKEN: process.env.YOUTUBE_REFRESH_TOKEN,
   UNSPLASH_ACCESS_KEY: process.env.UNSPLASH_ACCESS_KEY,
+  SENTRY_DSN: process.env.SENTRY_DSN,
 };
 
 export default config;

@@ -10,9 +10,19 @@ import { getUnsplashPhoto } from './image';
 import { videoLogger } from './lib/utils';
 import { Handler } from 'aws-lambda';
 import { uploadVideo, connectToYoutube } from './upload';
+import { init as initSentry } from '@sentry/node';
+import config from './config';
 
 const IMAGE_OUTPUT = '/tmp/out.png';
 const VIDEO_OUTPUT = '/tmp/out.mp4';
+
+if (process.env.NODE_ENV === 'production') {
+  global.__rootdir__ = __dirname || process.cwd();
+
+  initSentry({
+    dsn: config.SENTRY_DSN,
+  });
+}
 
 export const main: Handler = async () => {
   try {
