@@ -17,6 +17,7 @@ provider:
     SOUNDCLOUD_CLIENT_ID: ${ssm:SOUNDCLOUD_CLIENT_ID}
     UNSPLASH_ACCESS_KEY: ${ssm:UNSPLASH_ACCESS_KEY}
     DEBUG: '*Logger'
+    SENTRY_DSN: ${ssm:SENTRY_DSN}
 
 package:
   exclude:
