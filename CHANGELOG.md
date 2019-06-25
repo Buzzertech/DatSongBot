@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.1.1](https://github.com/Buzzertech/DatSongBot/compare/v1.1.0...v1.1.1) (2019-06-25)
+
+
+### Bug Fixes
+
+* **config:** add SENTRY_DSN as an env var to serverless config ([a7eecbf](https://github.com/Buzzertech/DatSongBot/commit/a7eecbf))
+
 # [1.1.0](https://github.com/Buzzertech/DatSongBot/compare/v1.0.0...v1.1.0) (2019-06-25)
 
 
