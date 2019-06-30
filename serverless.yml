@@ -33,6 +33,6 @@ functions:
   dat-song-bot:
     name: dat-song-bot-${self:provider.stage}
     description: 'This function generates and uploads a video to youtube!'
-    memorySize: 1024
+    memorySize: 3008
     timeout: 900 # 15 minutes
     handler: src/index.main
