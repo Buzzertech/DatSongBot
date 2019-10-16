@@ -1,12 +1,13 @@
 import { main } from '../src/index';
 import { tracks, imageData } from './__fixtures__/index.fixture';
-import { connectToYoutube } from '../src/upload';
+import { connectToYoutube, uploadVideo } from '../src/upload';
 import { getTracksFromSoundcloud, Track } from '../src/audio';
 import { getUnsplashPhoto } from '../src/image';
 import { prepareSvg, generateImage, processVideo } from '../src/video';
+import { youtube } from 'googleapis/build/src/apis/youtube';
 
 jest.mock('../src/upload', () => ({
-  connectToYoutube: jest.fn(),
+  connectToYoutube: jest.fn().mockImplementation(() => youtube),
   uploadVideo: jest.fn().mockResolvedValue({
     data: {
       id: 'abc',
@@ -47,6 +48,13 @@ describe('#main', () => {
       '/tmp/out.mp4',
       tracks[0],
       '/tmp/out.png'
+    );
+
+    expect(uploadVideo).toHaveBeenCalledWith(
+      '/tmp/out.mp4',
+      tracks[0],
+      imageData,
+      youtube
     );
   });
 });
