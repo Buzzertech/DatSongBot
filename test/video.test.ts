@@ -87,7 +87,7 @@ describe('video', () => {
     });
   });
 
-  describe('#processVideo', () => {
+  describe.skip('#processVideo', () => {
     it('will create a video file', async () => {
       await processVideo(
         '/tmp/out.mp4',
