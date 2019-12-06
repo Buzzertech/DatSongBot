@@ -91,6 +91,7 @@ export type PickedTrack = Pick<
   | 'permalink_url'
   | 'id'
   | 'duration'
+  | 'uri'
 >;
 interface SCUserWebProfile {
   kind: 'web-profile';

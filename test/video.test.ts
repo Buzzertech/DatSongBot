@@ -88,14 +88,13 @@ describe('video', () => {
   });
 
   describe('#processVideo', () => {
-    it('will create a video file', async () => {
+    it.skip('will create a video file', async () => {
       await processVideo(
         '/tmp/out.mp4',
         {
-          download_url:
+          uri:
             'https://raw.githubusercontent.com/anars/blank-audio/master/2-seconds-of-silence.mp3',
           duration: 2000,
-          stream_url: '',
         },
         '/tmp/out.png'
       );
