@@ -71,7 +71,7 @@ export const generateImage = async (outputPath: string, content: string) => {
 
 export const processVideo = (
   outputPath: string,
-  song: Pick<PickedTrack, 'duration' | 'download_url' | 'stream_url'>,
+  song: Pick<PickedTrack, 'duration' | 'uri'>,
   image: string
 ): Promise<void> => {
   videoLogger('Starting to process video');
@@ -82,10 +82,7 @@ export const processVideo = (
     .inputFPS(30)
     .loop()
     .withSize('1920x1080')
-    .input(
-      (song.download_url || song.stream_url) +
-        `?client_id=${config.SOUNDCLOUD_CLIENT_ID}`
-    )
+    .input(`${song.uri}/download?client_id=${config.SOUNDCLOUD_CLIENT_ID}`)
     .outputOption('-shortest')
     .videoCodec('libx264')
     .videoBitrate(10000, true)
@@ -116,9 +113,7 @@ export const getDescription = (
   imageData: IUnsplashResponse
 ) => `${songTitle}
 
-⭐️ DatSongBot brings you another fresh, new music by ${
-  song.user.username
-} for you to enjoy!
+⭐️ DatSongBot brings you another fresh, new music by ${song.user.username} for you to enjoy!
 
 Listen to this song on Soundcloud:
 ▶️${song.permalink_url}
@@ -126,9 +121,7 @@ Listen to this song on Soundcloud:
 Follow ${song.user.username} on Soundcloud:
 🔉${song.user.permalink_url}
 
-The background image used in this video is provided by ${
-  imageData.user.name
-} from Unsplash:
+The background image used in this video is provided by ${imageData.user.name} from Unsplash:
 🔗Follow ${imageData.user.name} on Unsplash - ${imageData.user.links.html}
 📂Download this background - ${imageData.links.html}
 
