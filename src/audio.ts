@@ -158,6 +158,7 @@ export const getTracksFromSoundcloud = async () => {
       'permalink_url',
       'id',
       'duration',
+      'uri',
     ]);
   } catch (e) {
     audioLogger(`Something went wrong while fetching / picking track`);
