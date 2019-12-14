@@ -77,9 +77,9 @@ export const processVideo = (
   videoLogger('Starting to process video');
   videoLogger(`Approx. duration of the video - ${song.duration} ms`);
 
-  //@ts-ignore
   const processChain = ffmpeg(image)
     .inputFPS(30)
+    //@ts-ignore
     .loop()
     .withSize('1920x1080')
     .input(`${song.uri}/download?client_id=${config.SOUNDCLOUD_CLIENT_ID}`)
