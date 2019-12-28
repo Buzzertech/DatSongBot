@@ -1,6 +1,19 @@
 # Changelog
 
 
+# [1.2.0](https://github.com/Buzzertech/DatSongBot/compare/v1.1.1...v1.2.0) (2019-12-28)
+
+
+### Bug Fixes
+
+* **get-tracks-fn:** pick song uri ([798480e](https://github.com/Buzzertech/DatSongBot/commit/798480e))
+* **video:** pick song input from download uri ([#54](https://github.com/Buzzertech/DatSongBot/issues/54)) ([64bdbe1](https://github.com/Buzzertech/DatSongBot/commit/64bdbe1))
+
+
+### Features
+
+* bump @types/fluent-ffmpeg to v2.1.13 ([#63](https://github.com/Buzzertech/DatSongBot/issues/63)) ([eae62fc](https://github.com/Buzzertech/DatSongBot/commit/eae62fc))
+
 ## [1.1.1](https://github.com/Buzzertech/DatSongBot/compare/v1.1.0...v1.1.1) (2019-06-25)
 
 
