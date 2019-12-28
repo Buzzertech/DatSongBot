@@ -91,6 +91,7 @@ export type PickedTrack = Pick<
   | 'permalink_url'
   | 'id'
   | 'duration'
+  | 'uri'
 >;
 interface SCUserWebProfile {
   kind: 'web-profile';
@@ -157,6 +158,7 @@ export const getTracksFromSoundcloud = async () => {
       'permalink_url',
       'id',
       'duration',
+      'uri',
     ]);
   } catch (e) {
     audioLogger(`Something went wrong while fetching / picking track`);

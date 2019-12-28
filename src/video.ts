@@ -71,21 +71,17 @@ export const generateImage = async (outputPath: string, content: string) => {
 
 export const processVideo = (
   outputPath: string,
-  song: Pick<PickedTrack, 'duration' | 'download_url' | 'stream_url'>,
+  song: Pick<PickedTrack, 'duration' | 'uri'>,
   image: string
 ): Promise<void> => {
   videoLogger('Starting to process video');
   videoLogger(`Approx. duration of the video - ${song.duration} ms`);
 
-  //@ts-ignore
   const processChain = ffmpeg(image)
     .inputFPS(30)
     .loop()
     .withSize('1920x1080')
-    .input(
-      (song.download_url || song.stream_url) +
-        `?client_id=${config.SOUNDCLOUD_CLIENT_ID}`
-    )
+    .input(`${song.uri}/download?client_id=${config.SOUNDCLOUD_CLIENT_ID}`)
     .outputOption('-shortest')
     .videoCodec('libx264')
     .videoBitrate(10000, true)
