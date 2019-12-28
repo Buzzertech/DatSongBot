@@ -38,7 +38,7 @@
     "@semantic-release/github": "^5.4.3",
     "@types/aws-lambda": "^8.10.27",
     "@types/debug": "^4.1.4",
-    "@types/fluent-ffmpeg": "^2.1.9",
+    "@types/fluent-ffmpeg": "^2.1.13",
     "@types/fs-extra": "^8.0.0",
     "@types/jest": "^24.0.13",
     "@types/jest-image-snapshot": "^2.8.0",
