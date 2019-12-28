@@ -11,6 +11,7 @@ Object {
   "stream_url": "https://api.soundcloud.com/tracks/640194939/stream",
   "tag_list": "",
   "title": "Wave He גל",
+  "uri": "https://api.soundcloud.com/tracks/640194939",
   "user": Object {
     "avatar_url": "https://a1.sndcdn.com/images/default_avatar_large.png",
     "id": 655787799,
