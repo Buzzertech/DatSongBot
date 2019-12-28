@@ -8,11 +8,9 @@ import {
 import { getTracksFromSoundcloud } from './audio';
 import { getUnsplashPhoto } from './image';
 import { videoLogger } from './lib/utils';
-import { Handler } from 'aws-lambda';
 import { uploadVideo, connectToYoutube } from './upload';
 import { init as initSentry } from '@sentry/node';
 import config from './config';
-
 const IMAGE_OUTPUT = '/tmp/out.png';
 const VIDEO_OUTPUT = '/tmp/out.mp4';
 
@@ -24,11 +22,15 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-export const main: Handler = async () => {
+type TReturnValue = () => Promise<void>;
+
+export const main: TReturnValue = async () => {
   try {
-    await launchPage();
-    const youtubeClient = connectToYoutube();
-    const song = await getTracksFromSoundcloud();
+    const [youtubeClient, song] = await Promise.all([
+      connectToYoutube(),
+      getTracksFromSoundcloud(),
+      launchPage(),
+    ]);
     const image = await getUnsplashPhoto(song.tag_list);
     const svgContent = prepareSvg(
       image.urls.custom,
@@ -41,7 +43,7 @@ export const main: Handler = async () => {
       VIDEO_OUTPUT,
       song,
       image,
-      await youtubeClient
+      youtubeClient
     );
 
     videoLogger(`Video has been uploaded!`);
@@ -49,6 +51,8 @@ export const main: Handler = async () => {
 
     closePage();
   } catch (e) {
+    await closePage();
     console.error(e);
+    return Promise.reject(e);
   }
 };
