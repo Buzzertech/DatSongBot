@@ -77,7 +77,6 @@ export const processVideo = (
   videoLogger('Starting to process video');
   videoLogger(`Approx. duration of the video - ${song.duration} ms`);
 
-  //@ts-ignore
   const processChain = ffmpeg(image)
     .inputFPS(30)
     .loop()
@@ -113,7 +112,9 @@ export const getDescription = (
   imageData: IUnsplashResponse
 ) => `${songTitle}
 
-⭐️ DatSongBot brings you another fresh, new music by ${song.user.username} for you to enjoy!
+⭐️ DatSongBot brings you another fresh, new music by ${
+  song.user.username
+} for you to enjoy!
 
 Listen to this song on Soundcloud:
 ▶️${song.permalink_url}
@@ -121,7 +122,9 @@ Listen to this song on Soundcloud:
 Follow ${song.user.username} on Soundcloud:
 🔉${song.user.permalink_url}
 
-The background image used in this video is provided by ${imageData.user.name} from Unsplash:
+The background image used in this video is provided by ${
+  imageData.user.name
+} from Unsplash:
 🔗Follow ${imageData.user.name} on Unsplash - ${imageData.user.links.html}
 📂Download this background - ${imageData.links.html}
 
