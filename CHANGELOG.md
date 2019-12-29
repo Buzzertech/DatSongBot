@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.2.1](https://github.com/Buzzertech/DatSongBot/compare/v1.2.0...v1.2.1) (2019-12-29)
+
+
+### Bug Fixes
+
+* pick stream url if download url is undefined ([#65](https://github.com/Buzzertech/DatSongBot/issues/65)) ([0b4d254](https://github.com/Buzzertech/DatSongBot/commit/0b4d254d2b1bdabedfd2adee3668e6b85233d4a0))
+
 # [1.2.0](https://github.com/Buzzertech/DatSongBot/compare/v1.1.1...v1.2.0) (2019-12-28)
 
 
