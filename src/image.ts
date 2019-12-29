@@ -42,7 +42,7 @@ export const getUnsplashPhoto = async (tags: string) => {
     {
       params: {
         client_id: config.UNSPLASH_ACCESS_KEY,
-        query: ['nature', ...tags.split(' ')].join(','),
+        query: ['nature', 'object', ...tags.split(' ')].join(','),
         orientation: 'landscape',
         w: 1920,
         h: 1080,

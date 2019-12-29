@@ -3,7 +3,6 @@ import {
   closePage,
   prepareSvg,
   generateImage,
-  processVideo,
   getDescription,
 } from '../src/video';
 import { puppeteer } from 'chrome-aws-lambda';
@@ -85,21 +84,6 @@ describe('video', () => {
         failureThresholdType: 'pixel',
       });
     });
-  });
-
-  describe('#processVideo', () => {
-    it.skip('will create a video file', async () => {
-      await processVideo(
-        '/tmp/out.mp4',
-        {
-          uri:
-            'https://raw.githubusercontent.com/anars/blank-audio/master/2-seconds-of-silence.mp3',
-          duration: 2000,
-        },
-        '/tmp/out.png'
-      );
-      expect(fs.existsSync('/tmp/out.mp4')).toEqual(true);
-    }, 20000);
   });
 
   describe('#getDescription', () => {
