@@ -82,7 +82,7 @@ export const processVideo = (
     .loop()
     .withSize('1920x1080')
     .input(
-      `${song.stream_url || song.download_url}?client_id=${
+      `${song.download_url || song.stream_url}?client_id=${
         config.SOUNDCLOUD_CLIENT_ID
       }`
     )
