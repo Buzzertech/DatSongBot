@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.2.2](https://github.com/Buzzertech/DatSongBot/compare/v1.2.1...v1.2.2) (2019-12-31)
+
+
+### Bug Fixes
+
+* pick download url ([286ac8d](https://github.com/Buzzertech/DatSongBot/commit/286ac8de4338e0919753808afc17fa1d2d26d8a7))
+
 ## [1.2.1](https://github.com/Buzzertech/DatSongBot/compare/v1.2.0...v1.2.1) (2019-12-29)
 
 
