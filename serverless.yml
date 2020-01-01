@@ -10,7 +10,7 @@ provider:
   stage: ${opt:stage, 'production'}
   region: ap-south-1
   environment:
-    NODE_ENV: 'production'
+    NODE_ENV: ${opt:stage, 'production'}
     YOUTUBE_CLIENT_ID: ${ssm:YOUTUBE_CLIENT_ID}
     YOUTUBE_CLIENT_SECRET: ${ssm:YOUTUBE_CLIENT_SECRET~true}
     YOUTUBE_REFRESH_TOKEN: ${ssm:YOUTUBE_REFRESH_TOKEN~true}
@@ -22,6 +22,7 @@ provider:
 package:
   exclude:
     - node_modules/puppeteer/.local-chromium/** # exclude puppeteer chrome if exists
+    - test
 
 custom:
   webpack:
