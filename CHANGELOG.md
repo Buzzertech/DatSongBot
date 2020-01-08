@@ -1,6 +1,13 @@
 # Changelog
 
 
+## [1.2.4](https://github.com/Buzzertech/DatSongBot/compare/v1.2.3...v1.2.4) (2020-01-08)
+
+
+### Bug Fixes
+
+* avoid passing client id to the media url ([b42ddf5](https://github.com/Buzzertech/DatSongBot/commit/b42ddf5e68a31632a1537644a88f09af25f02d3d))
+
 ## [1.2.3](https://github.com/Buzzertech/DatSongBot/compare/v1.2.2...v1.2.3) (2020-01-08)
 
 
