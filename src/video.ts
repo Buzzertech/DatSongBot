@@ -81,7 +81,7 @@ export const processVideo = (
     .inputFPS(30)
     .loop()
     .withSize('1920x1080')
-    .input(`${song.media_url}?client_id=${config.SOUNDCLOUD_CLIENT_ID}`)
+    .input(song.media_url)
     .outputOption('-shortest')
     .videoCodec('libx264')
     .videoBitrate(10000, true)

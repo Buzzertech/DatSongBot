@@ -153,7 +153,7 @@ export const getTranscodingForTrack = async (
       `https://api-v2.soundcloud.com/tracks`,
       {
         params: {
-          ids: [track_id],
+          ids: track_id,
           client_id: config.SOUNDCLOUD_CLIENT_ID,
         },
       }
