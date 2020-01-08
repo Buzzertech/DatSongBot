@@ -306,7 +306,9 @@ describe('audio', () => {
       const song = await getTracksFromSoundcloud();
       expect(song.id).toEqual(tracks[2].id);
 
-      Object.defineProperty(process.env, 'TRACK_ID', { value: undefined });
+      Object.assign(process.env, {
+        TRACK_ID: undefined,
+      });
     });
   });
 });
