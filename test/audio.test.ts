@@ -296,7 +296,10 @@ describe('audio', () => {
     });
 
     it('will fetch particular track document if TRACK_ID is set as an environment variable', async () => {
-      Object.defineProperty(process.env, 'TRACK_ID', { value: tracks[2].id });
+      Object.defineProperty(process.env, 'TRACK_ID', {
+        value: tracks[2].id,
+        writable: true,
+      });
 
       nock(`https://api.soundcloud.com`)
         .get(RegExp(`/tracks/${tracks[2].id}`))
