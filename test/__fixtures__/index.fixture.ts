@@ -1,4 +1,4 @@
-import { Track } from '../../src/audio';
+import { Track, TrackMedia } from '../../src/audio';
 import { IUnsplashResponse } from '../../src/image';
 
 export const tracks: Partial<Track>[] = [
@@ -184,6 +184,227 @@ export const tracks: Partial<Track>[] = [
     playback_count: 0,
   },
 ];
+
+export const tracksWithMediaTranscoding: Array<
+  Partial<Track & { media: TrackMedia }>
+> = [
+  {
+    comment_count: 0,
+    full_duration: 443,
+    downloadable: false,
+    created_at: '2019-06-21T18:53:15Z',
+    description:
+      'Just Hebrew words that have been downloaded individually from Forvo that i would like to share with anyone who is interested in language learning.',
+    media: {
+      transcodings: [
+        {
+          url:
+            'https://api-v2.soundcloud.com/media/soundcloud:tracks:640194939/f30b0842-7f5c-4b94-b852-8c38211767f9/stream/hls',
+          preset: 'mp3_0_0',
+          duration: 443,
+          snipped: false,
+          format: {
+            protocol: 'hls',
+            mime_type: 'audio/mpeg',
+          },
+          quality: 'sq',
+        },
+        {
+          url:
+            'https://api-v2.soundcloud.com/media/soundcloud:tracks:640194939/f30b0842-7f5c-4b94-b852-8c38211767f9/stream/progressive',
+          preset: 'mp3_0_0',
+          duration: 443,
+          snipped: false,
+          format: {
+            protocol: 'progressive',
+            mime_type: 'audio/mpeg',
+          },
+          quality: 'sq',
+        },
+        {
+          url:
+            'https://api-v2.soundcloud.com/media/soundcloud:tracks:640194939/f5dc6cc1-8e38-4391-8b4e-96835b118769/stream/hls',
+          preset: 'opus_0_0',
+          duration: 423,
+          snipped: false,
+          format: {
+            protocol: 'hls',
+            mime_type: 'audio/ogg; codecs="opus"',
+          },
+          quality: 'sq',
+        },
+      ],
+    },
+    title: 'Wave He גל',
+    publisher_metadata: {
+      urn: 'soundcloud:tracks:640194939',
+      contains_music: true,
+      id: 640194939,
+    },
+    duration: 443,
+    has_downloads_left: true,
+    artwork_url: 'https://i1.sndcdn.com/artworks-000555719193-3gg5mb-large.jpg',
+    public: true,
+    streamable: true,
+    tag_list: '',
+    download_url: null,
+    genre: '',
+    id: 640194939,
+    reposts_count: 0,
+    state: 'finished',
+    label_name: null,
+    last_modified: '2019-06-21T18:53:15Z',
+    commentable: true,
+    policy: 'ALLOW',
+    visuals: null,
+    kind: 'track',
+    purchase_url: null,
+    sharing: 'public',
+    uri: 'https://api.soundcloud.com/tracks/640194939',
+    secret_token: null,
+    download_count: 0,
+    likes_count: 0,
+    urn: 'soundcloud:tracks:640194939',
+    license: 'all-rights-reserved',
+    purchase_title: null,
+    display_date: '2019-06-21T18:53:15Z',
+    embeddable_by: 'all',
+    release_date: '2019-06-21T00:00:00Z',
+    user_id: 655787799,
+    monetization_model: 'NOT_APPLICABLE',
+    waveform_url: 'https://wave.sndcdn.com/SDZIqtuwu6I1_m.json',
+    permalink: 'wave-he',
+    permalink_url: 'https://soundcloud.com/user-525309592/wave-he',
+    user: {
+      avatar_url: 'https://i1.sndcdn.com/avatars-000645857394-65vwix-large.jpg',
+      first_name: '',
+      full_name: '',
+      id: 655787799,
+      kind: 'user',
+      last_modified: '2019-06-21T19:29:42Z',
+      last_name: '',
+      permalink: 'user-525309592',
+      permalink_url: 'https://soundcloud.com/user-525309592',
+      uri: 'https://api.soundcloud.com/users/655787799',
+      urn: 'soundcloud:users:655787799',
+      username: 'Matthew186f',
+      verified: false,
+      city: null,
+      country_code: null,
+    },
+    playback_count: 0,
+  },
+  {
+    comment_count: 1,
+    full_duration: 156096,
+    downloadable: false,
+    created_at: '2019-06-21T18:53:14Z',
+    description: '',
+    media: {
+      transcodings: [
+        {
+          url:
+            'https://api-v2.soundcloud.com/media/soundcloud:tracks:640194933/e0a6835c-0233-490f-9ee4-69d6a46f749a/stream/hls',
+          preset: 'mp3_0_0',
+          duration: 156096,
+          snipped: false,
+          format: {
+            protocol: 'hls',
+            mime_type: 'audio/mpeg',
+          },
+          quality: 'sq',
+        },
+        {
+          url:
+            'https://api-v2.soundcloud.com/media/soundcloud:tracks:640194933/e0a6835c-0233-490f-9ee4-69d6a46f749a/stream/progressive',
+          preset: 'mp3_0_0',
+          duration: 156096,
+          snipped: false,
+          format: {
+            protocol: 'progressive',
+            mime_type: 'audio/mpeg',
+          },
+          quality: 'sq',
+        },
+        {
+          url:
+            'https://api-v2.soundcloud.com/media/soundcloud:tracks:640194933/20e003bb-24e0-4e27-a5a4-8f0212b814ea/stream/hls',
+          preset: 'opus_0_0',
+          duration: 156010,
+          snipped: false,
+          format: {
+            protocol: 'hls',
+            mime_type: 'audio/ogg; codecs="opus"',
+          },
+          quality: 'sq',
+        },
+      ],
+    },
+    title: 'Dark Dayz',
+    publisher_metadata: {
+      urn: 'soundcloud:tracks:640194933',
+      contains_music: true,
+      id: 640194933,
+    },
+    duration: 156096,
+    has_downloads_left: true,
+    artwork_url: 'https://i1.sndcdn.com/artworks-000555719190-pzypcz-large.jpg',
+    public: true,
+    streamable: true,
+    tag_list: 'Beats beatsforsale typebeat Trap Rap "Hip Hop"',
+    download_url: null,
+    genre: '',
+    id: 640194933,
+    reposts_count: 0,
+    state: 'finished',
+    label_name: null,
+    last_modified: '2019-06-21T18:53:15Z',
+    commentable: true,
+    policy: 'ALLOW',
+    visuals: null,
+    kind: 'track',
+    purchase_url: null,
+    sharing: 'public',
+    uri: 'https://api.soundcloud.com/tracks/640194933',
+    secret_token: null,
+    download_count: 0,
+    likes_count: 1,
+    urn: 'soundcloud:tracks:640194933',
+    license: 'all-rights-reserved',
+    purchase_title: null,
+    display_date: '2019-06-21T18:53:14Z',
+    embeddable_by: 'all',
+    release_date: null,
+    user_id: 171477925,
+    monetization_model: 'NOT_APPLICABLE',
+    waveform_url: 'https://wave.sndcdn.com/pCfKSpyMqUmI_m.json',
+    permalink: 'dark-dayz',
+    permalink_url: 'https://soundcloud.com/northstarrr/dark-dayz',
+    user: {
+      avatar_url: 'https://i1.sndcdn.com/avatars-000685021568-7omduy-large.jpg',
+      first_name: '',
+      full_name: '',
+      id: 171477925,
+      kind: 'user',
+      last_modified: '2019-09-20T12:17:04Z',
+      last_name: '',
+      permalink: 'northstarrr',
+      permalink_url: 'https://soundcloud.com/northstarrr',
+      uri: 'https://api.soundcloud.com/users/171477925',
+      urn: 'soundcloud:users:171477925',
+      username: 'northstar',
+      verified: false,
+      city: null,
+      country_code: null,
+    },
+    playback_count: 20,
+  },
+];
+
+export const mediaTranscodingURL = {
+  url:
+    'https://cf-media.sndcdn.com/SDZIqtuwu6I1.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vU0RaSXF0dXd1NkkxLjEyOC5tcDMiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE1Nzg0MjA3MjN9fX1dfQ__&Signature=L3fHDM8LqDdoEO8Ol27umJIxSJPvn82mAvPB~tRljIwy9sUGBBLDEDrbdyM8PMjk~i~K4RzvYumazEA-DliN0iE0XM039pJac8xkw5Bz5nStocHdaChfdlu1oKydJHtXdWHus-gBPulDP490Zv7OiENwiCpS8oKj4IU5ua67ozrP0cSbM6iGduOBph7UkUQSRg5y3dFvDJtT0koDMkjRBjs5K-TDS~fc88cLPGzbj5zmYh6OjhBfBa0BmsLkJSH4wf8CSusPu8Z0IfQiyX4Zq3HrwQxeiC44okScb1BSE7cpcfK9ILWT~o3tyk2hb9beBCj6InrF5RsoyYampzr0Qg__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ',
+};
 
 export const imageData: IUnsplashResponse = {
   id: 'nKEARsgmrqc',

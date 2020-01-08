@@ -6,7 +6,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs8.10
+  runtime: nodejs12
   stage: ${opt:stage, 'production'}
   region: ap-south-1
   environment:

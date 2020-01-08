@@ -1,4 +1,5 @@
 import axios from 'axios';
+import url from 'url';
 import { pick, chain, sum } from 'lodash';
 import config from './config';
 import qs from 'qs';
@@ -11,19 +12,27 @@ interface SCUser {
   kind: 'user';
   permalink_url: string;
   uri: string;
+  first_name?: string;
+  last_name?: string;
+  full_name?: string;
   username: string;
   permalink: string;
   last_modified: string;
+  urn?: string;
+  verified?: boolean;
+  city?: string | null;
+  country_code?: string | null;
 }
 
 export interface Track {
+  full_duration?: number;
   comment_count: number;
   release: string | null;
   original_content_size: number;
   track_type: string | null;
   original_format: string;
   streamable: boolean;
-  download_url: string;
+  download_url: string | null;
   id: number;
   state: 'processing' | 'failed' | 'finished';
   last_modified: string;
@@ -76,7 +85,20 @@ export interface Track {
   user_playback_count: number;
   stream_url: string;
   label_id: number | null;
+  publisher_metadata?: {
+    urn: string;
+    contains_music: boolean;
+    id: number;
+  };
+  has_downloads_left?: boolean;
+  public?: boolean;
+  visuals?: string | null;
+  secret_token?: string | null;
+  urn?: string;
+  display_date?: string;
+  release_date?: string | null;
 
+  // custom
   media_url?: string;
 }
 
@@ -168,11 +190,17 @@ export const getTranscodingForTrack = async (
 
     if (!transcoding.url) {
       return Promise.reject(
-        `URL is undefined in selected transcoding ${JSON.stringify(
+        `URL property is undefined for the selected transcoding ${JSON.stringify(
           transcoding,
           null,
           2
         )} (track id - ${track_id})`
+      );
+    }
+
+    if (url.parse(transcoding.url).host !== 'api-v2.soundcloud.com') {
+      return Promise.reject(
+        `Media URL is not a soundcloud url for track (track id - ${track_id})`
       );
     }
 
