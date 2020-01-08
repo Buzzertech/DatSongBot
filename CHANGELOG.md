@@ -1,6 +1,13 @@
 # Changelog
 
 
+# [1.3.0](https://github.com/Buzzertech/DatSongBot/compare/v1.2.4...v1.3.0) (2020-01-08)
+
+
+### Features
+
+* optionally use provided track instead of picking random track ([#70](https://github.com/Buzzertech/DatSongBot/issues/70)) ([1c9b2db](https://github.com/Buzzertech/DatSongBot/commit/1c9b2dbb158fa916420b25a76f526ebb5eeae8a6))
+
 ## [1.2.4](https://github.com/Buzzertech/DatSongBot/compare/v1.2.3...v1.2.4) (2020-01-08)
 
 
