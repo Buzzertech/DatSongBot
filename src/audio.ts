@@ -248,9 +248,58 @@ export const getStreamUrlFromTranscoding = async (
   }
 };
 
+export const getTrackFromSoundcloud = async (track_id: Track['id']) => {
+  try {
+    audioLogger('fetching track document');
+    const response = await axios.get<Track>(
+      `https://api.soundcloud.com/tracks/${track_id}`,
+      {
+        params: {
+          client_id: config.SOUNDCLOUD_CLIENT_ID,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    audioLogger(
+      `There was an error while fetching track metadata for track id - ${track_id}`
+    );
+    audioLogger(error);
+    return Promise.reject(error);
+  }
+};
+
+const pluckPropertiesFromTrack = (track: Track) =>
+  pick(track, [
+    'stream_url',
+    'download_url',
+    'user',
+    'description',
+    'title',
+    'purchase_title',
+    'purchase_url',
+    'tag_list',
+    'permalink_url',
+    'id',
+    'duration',
+    'uri',
+    'media_url',
+  ]);
+
 export const getTracksFromSoundcloud = async () => {
   try {
     audioLogger('fetching tracks');
+
+    if (process.env.TRACK_ID) {
+      audioLogger(
+        `Fetching the preselected track using the track id provided ${process.env.TRACK_ID}`
+      );
+      const track = await getTrackFromSoundcloud(Number(process.env.TRACK_ID));
+
+      return pluckPropertiesFromTrack(track);
+    }
+
     const response = await axios.get<Track[]>(
       `https://api.soundcloud.com/tracks`,
       {
@@ -291,21 +340,7 @@ export const getTracksFromSoundcloud = async () => {
       `Picked Song - ${pickedSong.title} (Soundcloud id - ${pickedSong.id})`
     );
 
-    return pick(pickedSong, [
-      'stream_url',
-      'download_url',
-      'user',
-      'description',
-      'title',
-      'purchase_title',
-      'purchase_url',
-      'tag_list',
-      'permalink_url',
-      'id',
-      'duration',
-      'uri',
-      'media_url',
-    ]);
+    return pluckPropertiesFromTrack(pickedSong);
   } catch (e) {
     audioLogger(`Something went wrong while fetching / picking track`);
     audioLogger(e);

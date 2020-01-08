@@ -294,5 +294,24 @@ describe('audio', () => {
       const song = await getTracksFromSoundcloud();
       expect(song.id).toEqual(1);
     });
+
+    it('will fetch particular track document if TRACK_ID is set as an environment variable', async () => {
+      Object.defineProperty(process.env, 'TRACK_ID', {
+        value: tracks[2].id,
+        writable: true,
+      });
+
+      nock(`https://api.soundcloud.com`)
+        .get(RegExp(`/tracks/${tracks[2].id}`))
+        .once()
+        .reply(200, tracks[2]);
+
+      const song = await getTracksFromSoundcloud();
+      expect(song.id).toEqual(tracks[2].id);
+
+      Object.assign(process.env, {
+        TRACK_ID: undefined,
+      });
+    });
   });
 });
