@@ -270,6 +270,23 @@ export const getTrackFromSoundcloud = async (track_id: Track['id']) => {
   }
 };
 
+const pluckPropertiesFromTrack = (track: Track) =>
+  pick(track, [
+    'stream_url',
+    'download_url',
+    'user',
+    'description',
+    'title',
+    'purchase_title',
+    'purchase_url',
+    'tag_list',
+    'permalink_url',
+    'id',
+    'duration',
+    'uri',
+    'media_url',
+  ]);
+
 export const getTracksFromSoundcloud = async () => {
   try {
     audioLogger('fetching tracks');
@@ -278,7 +295,9 @@ export const getTracksFromSoundcloud = async () => {
       audioLogger(
         `Fetching the preselected track using the track id provided ${process.env.TRACK_ID}`
       );
-      return await getTrackFromSoundcloud(Number(process.env.TRACK_ID));
+      const track = await getTrackFromSoundcloud(Number(process.env.TRACK_ID));
+
+      return pluckPropertiesFromTrack(track);
     }
 
     const response = await axios.get<Track[]>(
@@ -321,21 +340,7 @@ export const getTracksFromSoundcloud = async () => {
       `Picked Song - ${pickedSong.title} (Soundcloud id - ${pickedSong.id})`
     );
 
-    return pick(pickedSong, [
-      'stream_url',
-      'download_url',
-      'user',
-      'description',
-      'title',
-      'purchase_title',
-      'purchase_url',
-      'tag_list',
-      'permalink_url',
-      'id',
-      'duration',
-      'uri',
-      'media_url',
-    ]);
+    return pluckPropertiesFromTrack(pickedSong);
   } catch (e) {
     audioLogger(`Something went wrong while fetching / picking track`);
     audioLogger(e);
