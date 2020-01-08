@@ -1,6 +1,14 @@
 # Changelog
 
 
+## [1.2.3](https://github.com/Buzzertech/DatSongBot/compare/v1.2.2...v1.2.3) (2020-01-08)
+
+
+### Bug Fixes
+
+* use newer soundcloud apis ([#69](https://github.com/Buzzertech/DatSongBot/issues/69)) ([a0bf57b](https://github.com/Buzzertech/DatSongBot/commit/a0bf57bfffe69a6032a594d6881c5f715fa17db1))
+* **serverless-config:** use correct runtime enum value ([14d1a36](https://github.com/Buzzertech/DatSongBot/commit/14d1a36ad95bd8451540ad0a6f855a8178f0786f))
+
 ## [1.2.2](https://github.com/Buzzertech/DatSongBot/compare/v1.2.1...v1.2.2) (2019-12-31)
 
 
