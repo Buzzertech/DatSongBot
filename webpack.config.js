@@ -35,7 +35,7 @@ module.exports = {
       },
     ],
   },
-  devtool: 'inline-source-map',
+  devtool: 'cheap-source-map',
   externals: {
     'chrome-aws-lambda': 'chrome-aws-lambda',
     'aws-sdk': 'aws-sdk',
