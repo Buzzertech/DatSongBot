@@ -24,3 +24,17 @@ Object {
   },
 }
 `;
+
+exports[`audio #getTranscodingForTrack should fetch transcodings for a track 1`] = `
+Object {
+  "duration": 443,
+  "format": Object {
+    "mime_type": "audio/mpeg",
+    "protocol": "progressive",
+  },
+  "preset": "mp3_0_0",
+  "quality": "sq",
+  "snipped": false,
+  "url": "https://api-v2.soundcloud.com/media/soundcloud:tracks:640194939/f30b0842-7f5c-4b94-b852-8c38211767f9/stream/progressive",
+}
+`;

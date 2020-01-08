@@ -1,4 +1,5 @@
 import axios from 'axios';
+import url from 'url';
 import { pick, chain, sum } from 'lodash';
 import config from './config';
 import qs from 'qs';
@@ -11,19 +12,27 @@ interface SCUser {
   kind: 'user';
   permalink_url: string;
   uri: string;
+  first_name?: string;
+  last_name?: string;
+  full_name?: string;
   username: string;
   permalink: string;
   last_modified: string;
+  urn?: string;
+  verified?: boolean;
+  city?: string | null;
+  country_code?: string | null;
 }
 
 export interface Track {
+  full_duration?: number;
   comment_count: number;
   release: string | null;
   original_content_size: number;
   track_type: string | null;
   original_format: string;
   streamable: boolean;
-  download_url: string;
+  download_url: string | null;
   id: number;
   state: 'processing' | 'failed' | 'finished';
   last_modified: string;
@@ -76,6 +85,21 @@ export interface Track {
   user_playback_count: number;
   stream_url: string;
   label_id: number | null;
+  publisher_metadata?: {
+    urn: string;
+    contains_music: boolean;
+    id: number;
+  };
+  has_downloads_left?: boolean;
+  public?: boolean;
+  visuals?: string | null;
+  secret_token?: string | null;
+  urn?: string;
+  display_date?: string;
+  release_date?: string | null;
+
+  // custom
+  media_url?: string;
 }
 
 export type PickedTrack = Pick<
@@ -92,6 +116,7 @@ export type PickedTrack = Pick<
   | 'id'
   | 'duration'
   | 'uri'
+  | 'media_url'
 >;
 interface SCUserWebProfile {
   kind: 'web-profile';
@@ -102,6 +127,126 @@ interface SCUserWebProfile {
   username: string;
   created_at: string;
 }
+
+export interface Transcoding {
+  url: string;
+  preset: string;
+  duration: number;
+  snipped: boolean;
+  format: {
+    protocol: 'hls' | 'progressive';
+    mime_type: 'audio/mpeg' | 'audio/ogg; codecs="opus"';
+  };
+  quality: 'sq';
+}
+
+export interface TrackMedia {
+  transcodings: Array<Transcoding>;
+}
+
+export const getTranscodingForTrack = async (
+  track_id: Track['id']
+): Promise<Transcoding> => {
+  try {
+    audioLogger('Fetching media information for track');
+    const response = await axios.get<Array<Track & { media: TrackMedia }>>(
+      `https://api-v2.soundcloud.com/tracks`,
+      {
+        params: {
+          ids: [track_id],
+          client_id: config.SOUNDCLOUD_CLIENT_ID,
+        },
+      }
+    );
+
+    if (!response.data.length) {
+      return Promise.reject(
+        `v2 api responded with 0 tracks for track id - ${track_id}`
+      );
+    }
+
+    if (!response.data[0].media.transcodings.length) {
+      return Promise.reject(
+        `No transcodings found for this track (track id - ${track_id})`
+      );
+    }
+
+    audioLogger('Picking a suitable transcoding');
+
+    const transcoding = response.data[0].media.transcodings.find(
+      transcoding => {
+        return (
+          transcoding.format.protocol === 'progressive' &&
+          transcoding.format.mime_type.includes('audio/mpeg')
+        );
+      }
+    );
+
+    if (!transcoding) {
+      return Promise.reject(
+        `No valid transcoding found for track (track id - ${track_id})`
+      );
+    }
+
+    if (!transcoding.url) {
+      return Promise.reject(
+        `URL property is undefined for the selected transcoding ${JSON.stringify(
+          transcoding,
+          null,
+          2
+        )} (track id - ${track_id})`
+      );
+    }
+
+    if (url.parse(transcoding.url).host !== 'api-v2.soundcloud.com') {
+      return Promise.reject(
+        `Media URL is not a soundcloud url for track (track id - ${track_id})`
+      );
+    }
+
+    audioLogger('Found a sutiable transcoding for this track');
+
+    return transcoding;
+  } catch (error) {
+    audioLogger(
+      `Something went wrong while fetching transcodings for the track - ${track_id}`
+    );
+    audioLogger(error);
+    return Promise.reject(error);
+  }
+};
+
+export const getStreamUrlFromTranscoding = async (
+  transcoding: Transcoding,
+  track_id: Track['id']
+): Promise<string> => {
+  try {
+    audioLogger(`Fetching a streamable media url for this track - ${track_id}`);
+
+    const { url } = transcoding;
+    const { data } = await axios.get<{ url: string }>(url, {
+      params: {
+        client_id: config.SOUNDCLOUD_CLIENT_ID,
+      },
+    });
+
+    if (!data.url) {
+      return Promise.reject(
+        `No stream url found in the response of the transcoding API (track id - ${track_id}, media url - ${transcoding.url})`
+      );
+    }
+
+    audioLogger(`Fetched the streamable media url`);
+
+    return data.url;
+  } catch (error) {
+    audioLogger(
+      `Something went wrong while fetching stream url for the track - ${track_id}`
+    );
+    audioLogger(error);
+    return Promise.reject(error);
+  }
+};
 
 export const getTracksFromSoundcloud = async () => {
   try {
@@ -159,6 +304,7 @@ export const getTracksFromSoundcloud = async () => {
       'id',
       'duration',
       'uri',
+      'media_url',
     ]);
   } catch (e) {
     audioLogger(`Something went wrong while fetching / picking track`);

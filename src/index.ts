@@ -5,9 +5,14 @@ import {
   closePage,
   processVideo,
 } from './video';
-import { getTracksFromSoundcloud } from './audio';
+import {
+  getTracksFromSoundcloud,
+  getTranscodingForTrack,
+  getStreamUrlFromTranscoding,
+  Transcoding,
+} from './audio';
 import { getUnsplashPhoto } from './image';
-import { videoLogger } from './lib/utils';
+import { videoLogger, pipe } from './lib/utils';
 import { uploadVideo, connectToYoutube } from './upload';
 import { init as initSentry } from '@sentry/node';
 import config from './config';
@@ -31,12 +36,23 @@ export const main: TReturnValue = async () => {
       getTracksFromSoundcloud(),
       launchPage(),
     ]);
+
+    const streamUrl: string = await pipe<number, string>([
+      getTranscodingForTrack,
+      (transcoding: Transcoding): Promise<string> =>
+        getStreamUrlFromTranscoding(transcoding, song.id),
+    ])(song.id);
+
+    // Define the property `media_url` on the track object with the value of `streamUrl`
+    song.media_url = streamUrl;
+
     const image = await getUnsplashPhoto(song.tag_list);
     const svgContent = prepareSvg(
       image.urls.custom,
       song.title.replace(/(")|(')|(\.)/g, ''),
       song.user.username
     );
+
     await generateImage(IMAGE_OUTPUT, svgContent);
     await processVideo(VIDEO_OUTPUT, song, IMAGE_OUTPUT);
     const response = await uploadVideo(
