@@ -2,7 +2,6 @@ import ffmpeg from 'fluent-ffmpeg';
 import { PickedTrack } from './audio';
 import chromium from 'chrome-aws-lambda';
 import { Browser, LaunchOptions } from 'puppeteer';
-import config from './config';
 import { IUnsplashResponse } from 'image';
 import { imageLogger, videoLogger, durationToSeconds } from './lib/utils';
 import installer from '@ffmpeg-installer/ffmpeg';
@@ -69,7 +68,7 @@ export const generateImage = async (outputPath: string, content: string) => {
   await window.close();
 };
 
-export const processVideo = (
+export const processVideo = async (
   outputPath: string,
   song: Pick<PickedTrack, 'duration' | 'media_url'>,
   image: string
@@ -77,6 +76,9 @@ export const processVideo = (
   videoLogger('Starting to process video');
   videoLogger(`Approx. duration of the video - ${song.duration} ms`);
 
+  if (!song.media_url) {
+    return Promise.reject(`Media URL is undefined`);
+  }
   const processChain = ffmpeg(image)
     .inputFPS(30)
     .loop()
