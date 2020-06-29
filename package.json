@@ -44,7 +44,7 @@
     "@types/jest-image-snapshot": "^2.8.0",
     "@types/lodash": "^4.14.134",
     "@types/nock": "^10.0.3",
-    "@types/puppeteer": "^1.19.1",
+    "@types/puppeteer": "^3.0.1",
     "@types/qs": "^6.5.3",
     "aws-sdk": "^2.476.0",
     "commitlint": "^8.2.0",
