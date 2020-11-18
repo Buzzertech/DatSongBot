@@ -57,7 +57,7 @@
     "pretty-quick": "^1.10.0",
     "puppeteer": "^1.18.0",
     "puppeteer-core": "^1.18.0",
-    "semantic-release": "^15.13.16",
+    "semantic-release": "^17.2.3",
     "serverless": "^1.60.5",
     "serverless-offline": "^5.4.4",
     "serverless-webpack": "^5.3.1",
