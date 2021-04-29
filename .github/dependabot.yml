@@ -1,0 +1,82 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "23:30"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: "@sentry/node"
+    versions:
+    - 6.0.2
+    - 6.0.3
+    - 6.0.4
+    - 6.1.0
+    - 6.2.0
+    - 6.2.1
+    - 6.2.2
+    - 6.2.3
+    - 6.2.4
+    - 6.2.5
+    - 6.3.0
+    - 6.3.1
+  - dependency-name: ts-loader
+    versions:
+    - 8.0.14
+    - 8.0.15
+    - 8.0.16
+    - 8.0.17
+    - 8.0.18
+    - 8.1.0
+    - 8.2.0
+    - 9.0.2
+    - 9.1.0
+  - dependency-name: date-fns
+    versions:
+    - 2.16.1
+    - 2.17.0
+    - 2.18.0
+    - 2.19.0
+    - 2.20.0
+    - 2.20.1
+    - 2.20.2
+    - 2.20.3
+    - 2.21.0
+  - dependency-name: "@types/aws-lambda"
+    versions:
+    - 8.10.71
+    - 8.10.72
+    - 8.10.73
+    - 8.10.75
+  - dependency-name: npm
+    versions:
+    - 6.14.11
+    - 6.14.12
+  - dependency-name: "@types/jest"
+    versions:
+    - 26.0.20
+    - 26.0.21
+    - 26.0.22
+  - dependency-name: jest-image-snapshot
+    versions:
+    - 4.3.0
+    - 4.4.0
+  - dependency-name: "@types/puppeteer"
+    versions:
+    - 5.4.2
+  - dependency-name: serverless-offline
+    versions:
+    - 6.8.0
+  - dependency-name: "@types/qs"
+    versions:
+    - 6.9.5
+  - dependency-name: lodash
+    versions:
+    - 4.17.20
+  - dependency-name: elliptic
+    versions:
+    - 6.5.3
+  - dependency-name: handlebars
+    versions:
+    - 4.7.6
